@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node_modules/typescript/bin/tsc -b)",
+      "Bash(curl -s \"http://localhost:5174/src/assets/3d/nube.glb\" -o /dev/null -w \"glb HTTP %{http_code} size %{size_download}\\\\n\")",
+      "Bash(ls node_modules/tailwindcss)",
+      "Bash(ls node_modules/postcss)",
+      "Bash(ls node_modules/react-router-dom)",
+      "Bash(ls ../node_modules/react-router-dom)",
+      "Bash(ls tailwind.config.* postcss.config.*)"
+    ]
+  }
+}

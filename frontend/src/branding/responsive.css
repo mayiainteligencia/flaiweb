@@ -1,0 +1,68 @@
+/*
+ * responsive.css — Único lugar para el comportamiento responsive de toda la página.
+ * Los componentes definen su estilo base (desktop). Aquí van los overrides por breakpoint,
+ * agrupados por sección. Se importa DESPUÉS de theme.css para que gane la cascada.
+ *
+ * Breakpoints:
+ *   Móvil    : <= 640px
+ *   Tablet   : 641px – 1024px
+ *   Desktop  : > 1024px  (estilo base, sin media query)
+ */
+
+/* ---------- Base global ---------- */
+html {
+  font-size: 16px;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+img,
+video,
+canvas {
+  max-width: 100%;
+}
+
+/* Usa la altura real del viewport en móvil (evita saltos por la barra del navegador) */
+.hero__sticky {
+  height: 100dvh;
+}
+
+/* ============================================================
+ * SECCIÓN: Hero
+ * ============================================================ */
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .hero__sticky::before {
+    background-size: 40px 40px;
+  }
+}
+
+/* Móvil */
+@media (max-width: 640px) {
+  .hero {
+    height: 250vh;
+  }
+
+  .hero__logo {
+    width: clamp(96px, 30vw, 150px);
+  }
+
+  .hero__hint {
+    bottom: 2rem;
+    font-size: 0.82rem;
+    width: 80%;
+    line-height: 1.4;
+  }
+
+  .hero__sticky::before {
+    background-size: 32px 32px;
+  }
+
+  .hero__brands {
+    left: 1rem;
+    gap: 1rem;
+  }
+}

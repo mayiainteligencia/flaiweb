@@ -1,0 +1,137 @@
+.hero {
+  position: relative;
+  width: 100%;
+  height: 300vh;
+}
+
+.hero__sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse 55% 45% at 50% 58%, rgba(255, 26, 26, 0.12), transparent 70%),
+    radial-gradient(ellipse 90% 70% at 50% 125%, rgba(255, 26, 26, 0.18), transparent 60%),
+    radial-gradient(circle at 50% 50%, #110404 0%, var(--color-black) 55%);
+}
+
+/* Rejilla tenue para dar look tech */
+.hero__sticky::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(255, 26, 26, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 26, 26, 0.06) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, #000 30%, transparent 80%);
+  -webkit-mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, #000 30%, transparent 80%);
+}
+
+.hero__canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.hero__overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  transition: opacity 0.1s linear;
+}
+
+.hero__fog {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  opacity: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at 50% 50%, #ffffff 0%, #f4efe6 60%, #ffffff 100%);
+}
+
+.hero__logo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: clamp(120px, 13vw, 200px);
+  height: auto;
+}
+
+/* Marcas del extremo izquierdo (se desvanecen con el overlay al entrar) */
+.hero__brands {
+  position: absolute;
+  left: 2.5rem;
+  top: 2rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+}
+
+.hero__brand--mayia {
+  width: clamp(90px, 9vw, 150px);
+  height: auto;
+}
+
+.hero__brand--hem {
+  width: clamp(64px, 6vw, 100px);
+  height: auto;
+}
+
+.hero__hint {
+  position: absolute;
+  bottom: 2.25rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  text-align: center;
+}
+
+.hero__hint-label {
+  font-size: 0.72rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.28em;
+  color: rgba(255, 255, 255, 0.55);
+  text-indent: 0.28em; /* compensa el tracking para centrar óptico */
+}
+
+/* Carril vertical con un haz rojo que cae (indicador de scroll tech) */
+.hero__hint-track {
+  position: relative;
+  width: 1px;
+  height: 44px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.hero__hint-beam {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 45%;
+  background: linear-gradient(to bottom, transparent, var(--color-red));
+  box-shadow: 0 0 8px rgba(255, 26, 26, 0.7);
+  animation: hero-beam 1.8s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+
+@keyframes hero-beam {
+  0% { transform: translateY(-120%); }
+  100% { transform: translateY(260%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__hint-beam {
+    animation: none;
+    transform: translateY(60%);
+  }
+}
