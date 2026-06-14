@@ -80,13 +80,9 @@ const leafClass = (active: boolean) =>
 export default function Sidebar({
   collapsed,
   onToggle,
-  mobileOpen,
-  onClose,
 }: {
   collapsed: boolean;
   onToggle: () => void;
-  mobileOpen: boolean;
-  onClose: () => void;
 }) {
   const [open, setOpen] = useState<Record<string, boolean>>({ servicios: true });
 
@@ -102,11 +98,9 @@ export default function Sidebar({
   return (
     <aside
       className={[
-        'fixed inset-y-0 left-0 z-50 flex h-screen flex-col border-r border-border-subtle bg-sidebar-bg transition-transform duration-200',
-        'lg:static lg:z-auto lg:shrink-0 lg:translate-x-0 lg:transition-[width]',
-        'w-[260px]',
+        'hidden h-screen flex-col border-r border-border-subtle bg-sidebar-bg',
+        'lg:flex lg:static lg:shrink-0 lg:transition-[width]',
         collapsed ? 'lg:w-16' : 'lg:w-60',
-        mobileOpen ? 'translate-x-0' : '-translate-x-full',
       ].join(' ')}
     >
       {/* Logo centrado + toggle de colapso */}
@@ -130,7 +124,6 @@ export default function Sidebar({
               to={node.to}
               end={node.to === ROUTES.HOME}
               title={collapsed ? node.label : undefined}
-              onClick={onClose}
               className={({ isActive }) => itemClass(collapsed)(isActive)}
             >
               <Icon name={node.icon} />
@@ -161,7 +154,6 @@ export default function Sidebar({
                     <NavLink
                       key={leaf.label}
                       to={leaf.to}
-                      onClick={onClose}
                       className={({ isActive }) => leafClass(isActive)}
                     >
                       <span className="truncate">{leaf.label}</span>
@@ -184,7 +176,6 @@ export default function Sidebar({
         <NavLink
           to={ROUTES.SETTINGS}
           title={collapsed ? 'Configuración' : undefined}
-          onClick={onClose}
           className={({ isActive }) => itemClass(collapsed)(isActive)}
         >
           <Icon name="settings" />
@@ -213,7 +204,7 @@ function Chevron({ open }: { open: boolean }) {
   );
 }
 
-type IconName =
+export type IconName =
   | 'home'
   | 'server'
   | 'industries'
@@ -298,7 +289,7 @@ const ICONS: Record<IconName, JSX.Element> = {
   ),
 };
 
-function Icon({ name }: { name: IconName }) {
+export function Icon({ name }: { name: IconName }) {
   return (
     <svg
       width="20"

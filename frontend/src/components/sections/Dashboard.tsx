@@ -1,14 +1,15 @@
 import DashboardLayout from '@/components/layout/DashboardLayout';
+import Overview from '@/components/dashboard/Overview';
 
 /**
- * Aparece tras "entrar" a la nube en el Hero. Monta el shell del dashboard.
- * Contenido del área principal por definir.
+ * Aparece tras "entrar" a la nube en el Hero. Monta el shell del dashboard
+ * con el contenido de Inicio (overview de la plataforma).
  */
 export default function Dashboard() {
   return (
     <section className="dashboard">
       <DashboardLayout>
-        {/* TODO: contenido del dashboard */}
+        <Overview />
       </DashboardLayout>
     </section>
   );

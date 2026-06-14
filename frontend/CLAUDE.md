@@ -3,10 +3,12 @@
 
 ## Stack
 - React + Vite + TypeScript
-- React Router (rutas en `src/constants/routes.ts`, `<BrowserRouter>` en `main.tsx`)
-- Tailwind v3 + variables CSS del branding (sin librería de UI externa). Secciones del Hero usan CSS plano; el dashboard usa Tailwind. Los colores Tailwind mapean a `var(--...)` en `tailwind.config.js`.
-- Three.js / R3F / drei / postprocessing para el Hero 3D
+- React Router (rutas en `src/constants/routes.ts`, `<Routes>` en `src/App.tsx`, `<BrowserRouter>` en `main.tsx`)
+- Tailwind v3 + variables CSS del branding. Secciones del Hero usan CSS plano; el dashboard usa Tailwind. Los colores Tailwind mapean a `var(--...)` en `tailwind.config.js`.
+- Three.js / R3F / drei / postprocessing para el Hero 3D; `@paper-design/shaders-react` (MeshGradient) para el fondo del Hero
+- `framer-motion` (animaciones del dashboard) y `lucide-react` (íconos del dashboard)
 - Alias `@/` → `src/`
+- **Instalar deps nuevas con `--legacy-peer-deps`** (conflicto preexistente postprocessing@3 ↔ fiber@8).
 
 ## Mapa del proyecto
 La arquitectura completa está en `ARCHITECTURE.md`. **Léelo antes de crear o mover archivos.** Resumen de dónde toco qué:
@@ -14,23 +16,28 @@ La arquitectura completa está en `ARCHITECTURE.md`. **Léelo antes de crear o m
 | Cambiar...                         | Archivo                                   |
 |------------------------------------|-------------------------------------------|
 | Color / tipografía / espaciado     | `src/branding/tokens.ts` + `theme.css`    |
-| Copy / precio de un servicio       | `src/data/services.ts`                    |
-| Copy de un paquete de precio       | `src/data/pricing.ts`                     |
+| Nombre/tagline/ícono/ruta de un servicio | `src/data/services.ts`              |
+| Ficha (incluye, casos, beneficios, seguridad, precio) de un servicio | `src/data/serviceDetails.ts` |
+| Copy de un paquete de precio       | `src/data/pricing.ts` (vacío aún)         |
+| Industrias (lista/íconos/rutas)    | `src/data/industries.ts`                  |
 | Estructura de página de servicio   | `src/pages/services/_ServicePageTemplate.tsx` |
+| Contenido de Inicio del dashboard  | `src/components/dashboard/Overview.tsx`   |
+| Mapa ServiceIcon → lucide          | `src/components/dashboard/serviceIcons.ts`|
 | Una sección del Home               | `src/components/sections/`                |
 | Orden de secciones del Home        | `src/pages/Home.tsx`                       |
-| Navbar / Footer                    | `src/components/layout/`                   |
-| Una ruta                           | `src/constants/routes.ts`                 |
+| Rutas / qué renderiza cada path    | `src/App.tsx`                             |
+| Shell del dashboard (sidebar/header/tab bar móvil) | `src/components/layout/`  |
+| Una ruta (constante)               | `src/constants/routes.ts`                 |
 | Imagen / ícono                     | `src/assets/`                             |
 | Algo responsive (cualquier sección)| `src/branding/responsive.css`             |
 | Superficies/colores del dashboard  | `src/branding/theme.css` (tokens `--surface-*`) |
-| Shell del dashboard (sidebar/header)| `src/components/layout/`                  |
-| Nube 3D / zoom / whiteout          | `src/components/sections/Hero.tsx`        |
+| Nube 3D / shader / zoom / whiteout | `src/components/sections/Hero.tsx`        |
 
 ## Reglas del proyecto
 - **Nada de valores hardcodeados de estilo.** Colores, fuentes, radios y sombras siempre vía `var(--...)` que salen de `tokens.ts`.
 - **Contenido de negocio (copy, precios, nombres) solo en `src/data/`.** Los componentes reciben todo por props o importan de `data/`, nunca texto hardcodeado.
-- **Componentes en `components/` no conocen el negocio.** Si un componente importa data directamente (salvo Navbar/Footer que arman menús desde `data/`), está mal ubicado.
+- **Componentes en `components/` no conocen el negocio.** Excepción: los que arman navegación/contenido desde `data/` (Sidebar, MobileTabBar, `dashboard/Overview`).
+- **Íconos del dashboard:** lucide-react. El mapa `ServiceIcon → componente lucide` vive en `components/dashboard/serviceIcons.ts` (no duplicar). El Hero y el Sidebar usan SVG inline propios.
 - **Las 10 páginas de servicio usan `_ServicePageTemplate.tsx`.** No repetir estructura.
 - **Rutas siempre desde `routes.ts`**, nunca strings sueltos en links.
 - **Nada de código spaghetti.** Componentes pequeños y con una sola responsabilidad. Si un archivo crece o anida demasiado, extraer en piezas según la arquitectura.
@@ -40,7 +47,9 @@ La arquitectura completa está en `ARCHITECTURE.md`. **Léelo antes de crear o m
 - **Tailwind solo en el dashboard;** Hero y demás secciones, CSS plano. Ambos consumen las mismas variables del branding.
 
 ## Estado actual
-- **Hero** implementado: nube volumétrica (drei, no `.glb`) con brillo interno, fondo tech (degradado rojo + rejilla), zoom por scroll (sección `300vh` sticky), overlay que se desvanece (logo FLAI, marcas Hecho en México + MAYIA, indicador de scroll), y **whiteout** que entrega al dashboard.
-- **Dashboard** implementado: `DashboardLayout` (sidebar + header + main con scroll propio) en paleta clara tipo nube. Sidebar data-driven con NavLink, grupos acordeón, colapsable en desktop y drawer en móvil. Montado en `Dashboard.tsx` tras el zoom.
+- **Hero**: nube volumétrica (drei) con billows tipo coliflor + brillo interno; **fondo shader** `MeshGradient` (negros/rojos/verdes oscuros) + rejilla; zoom por scroll (`300vh` sticky); overlay; **whiteout** al dashboard. Perf: Canvas `dpr=[1,1.5]`/`antialias:false`, shader `maxPixelCount`, y **pausa** de ambos vía `IntersectionObserver` cuando el Hero sale de vista.
+- **Ruteo (`App.tsx`)**: `/` = Home (Hero + Dashboard con `<Overview/>`); el resto va dentro de `DashboardLayout` + `<Outlet/>`. Secciones sin construir → `SectionPlaceholder`.
+- **Dashboard**: `DashboardLayout` = Sidebar (solo `lg+`, colapsable) + Header (logo móvil/colapsado, buscador desktop, lupa móvil) + `<main>` + `MobileTabBar` (pill flotante `<lg`, framer-motion, visible solo cuando el dashboard entra en vista). Inicio en `components/dashboard/Overview.tsx`.
+- **Páginas de servicio (10)**: `_ServicePageTemplate.tsx` + `data/serviceDetails.ts`; cada página pasa su `slug`.
 - **Infra:** Tailwind v3 + PostCSS, BrowserRouter, favicon en `public/favicon.svg`.
-- **Pendiente:** contenido del área principal del dashboard, `<Routes>` por página, contenido de `data/*` y `pages/`.
+- **Pendiente:** páginas de Industrias/Marketplace/Trust Center/Precios/Recursos/Contacto (hoy placeholder), `data/pricing.ts`, code-splitting del bundle.

@@ -1,6 +1,7 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Cloud, Clouds } from '@react-three/drei';
+import { MeshGradient } from '@paper-design/shaders-react';
 import * as THREE from 'three';
 import type { Group } from 'three';
 import logoFlai from '@/assets/images/logos/logo-FLAI.png';
@@ -16,7 +17,7 @@ function scrollProgress(section: HTMLElement | null) {
   return Math.min(1, Math.max(0, -section.getBoundingClientRect().top / total));
 }
 
-function VolumetricCloud() {
+function VolumetricCloud({ scale }: { scale: number }) {
   const ref = useRef<Group>(null);
 
   useFrame((state) => {
@@ -25,19 +26,35 @@ function VolumetricCloud() {
   });
 
   return (
-    <group ref={ref} scale={0.32}>
-      <pointLight position={[0, -0.6, 0]} intensity={8} distance={5} color="#ffca7a" />
+    <group ref={ref} scale={scale}>
+      {/* Glow cálido interior, concentrado abajo-centro como en la referencia */}
+      <pointLight position={[0, -0.7, 0.6]} intensity={14} distance={4.5} decay={2} color="#ffc878" />
+      <pointLight position={[0, -0.2, 0]} intensity={5} distance={6} decay={2} color="#fff1d6" />
       <Clouds material={THREE.MeshLambertMaterial}>
+        {/* Cuerpo principal: cúmulo ancho, base plana, puffs grandes y redondos */}
         <Cloud
-          segments={60}
-          bounds={[5, 1.6, 1.6]}
-          volume={7}
-          smallestVolume={0.3}
+          segments={40}
+          bounds={[4.6, 1.2, 1.2]}
+          volume={9}
+          smallestVolume={0.7}
           concentrate="inside"
-          growth={3}
-          speed={0.15}
+          growth={6}
+          speed={0.1}
+          opacity={0.98}
+          color="#f6f1e9"
+        />
+        {/* Billows del borde: pelotas redondas tipo coliflor en el perímetro superior */}
+        <Cloud
+          segments={24}
+          bounds={[4.4, 0.9, 0.9]}
+          position={[0, 0.4, 0]}
+          volume={6}
+          smallestVolume={0.85}
+          concentrate="outside"
+          growth={5}
+          speed={0.16}
           opacity={0.9}
-          color="#f4efe6"
+          color="#fbf7f0"
         />
       </Clouds>
     </group>
@@ -58,6 +75,28 @@ export default function Hero() {
   const overlayRef = useRef<HTMLDivElement>(null);
   const fogRef = useRef<HTMLDivElement>(null);
 
+  // En móvil la nube es mucho más chica para no saturar la pantalla.
+  const [cloudScale, setCloudScale] = useState(0.22);
+  useEffect(() => {
+    const update = () => setCloudScale(window.innerWidth < 768 ? 0.12 : 0.22);
+    update();
+    window.addEventListener('resize', update);
+    return () => window.removeEventListener('resize', update);
+  }, []);
+
+  // Pausa el render WebGL (nube + shader) cuando el Hero sale de vista (estás en el dashboard).
+  const [active, setActive] = useState(true);
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([entry]) => setActive(entry.isIntersecting),
+      { threshold: 0 }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
   // Logo/hint se desvanecen al entrar; al final la nube nos envuelve (whiteout).
   useEffect(() => {
     const onScroll = () => {
@@ -73,11 +112,25 @@ export default function Hero() {
   return (
     <section className="hero" ref={sectionRef}>
       <div className="hero__sticky">
+        {/* Fondo animado: gradiente shader oscuro con rojos y verdes profundos */}
+        <MeshGradient
+          className="hero__gradient"
+          colors={['#000000', '#000000', '#1a0505', '#3a0a0a', '#06140d', '#0a2417']}
+          speed={active ? 0.3 : 0}
+          distortion={0.8}
+          swirl={0.5}
+          maxPixelCount={1280 * 720}
+        />
         <div className="hero__canvas">
-          <Canvas camera={{ position: [0, 0, 9], fov: 45 }}>
-            <ambientLight intensity={0.4} />
-            <directionalLight position={[2, 4, 3]} intensity={0.6} />
-            <VolumetricCloud />
+          <Canvas
+            frameloop={active ? 'always' : 'never'}
+            dpr={[1, 1.5]}
+            gl={{ antialias: false, powerPreference: 'high-performance' }}
+            camera={{ position: [0, 0, 9], fov: 45 }}
+          >
+            <ambientLight intensity={0.3} />
+            <directionalLight position={[1, 5, 2]} intensity={0.7} color="#fff6e8" />
+            <VolumetricCloud scale={cloudScale} />
             <CameraRig sectionRef={sectionRef} />
           </Canvas>
         </div>

@@ -4,12 +4,12 @@ import { BrowserRouter } from 'react-router-dom';
 import './branding/tailwind.css';
 import './branding/theme.css';
 import './branding/responsive.css';
-import Home from './pages/Home';
+import App from './App';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
-      <Home />
+      <App />
     </BrowserRouter>
   </StrictMode>,
 );
