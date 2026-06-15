@@ -9,7 +9,7 @@ type NavNode =
   | { type: 'group'; key: string; label: string; icon: IconName; items: NavLeaf[] };
 
 const NAV: NavNode[] = [
-  { type: 'item', label: 'Inicio', to: ROUTES.HOME, icon: 'home' },
+  { type: 'item', label: 'Inicio', to: ROUTES.DASHBOARD, icon: 'home' },
   {
     type: 'group',
     key: 'servicios',
@@ -105,7 +105,11 @@ export default function Sidebar({
     >
       {/* Logo centrado + toggle de colapso */}
       <div className="relative flex h-16 items-center justify-center border-b border-border-subtle px-2">
-        {!collapsed && <img src={logoFlai} alt="FLAI" className="h-7 w-auto" />}
+        {!collapsed && (
+          <NavLink to={ROUTES.HOME} title="Ir a la nube FLAI" className="transition-opacity hover:opacity-80">
+            <img src={logoFlai} alt="FLAI" className="h-7 w-auto" />
+          </NavLink>
+        )}
         <button
           onClick={onToggle}
           aria-label={collapsed ? 'Expandir menú' : 'Colapsar menú'}
@@ -171,15 +175,15 @@ export default function Sidebar({
         )}
       </nav>
 
-      {/* Configuración, separada abajo */}
+      {/* Asesor Cloud, separado abajo */}
       <div className="border-t border-border-subtle px-2 py-3">
         <NavLink
-          to={ROUTES.SETTINGS}
-          title={collapsed ? 'Configuración' : undefined}
+          to={ROUTES.ADVISOR}
+          title={collapsed ? 'Asesor Cloud' : undefined}
           className={({ isActive }) => itemClass(collapsed)(isActive)}
         >
-          <Icon name="settings" />
-          {!collapsed && <span className="truncate">Configuración</span>}
+          <Icon name="advisor" />
+          {!collapsed && <span className="truncate">Asesor Cloud</span>}
         </NavLink>
       </div>
     </aside>
@@ -214,7 +218,7 @@ export type IconName =
   | 'pricing'
   | 'resources'
   | 'mail'
-  | 'settings'
+  | 'advisor'
   | 'panel';
 
 const ICONS: Record<IconName, JSX.Element> = {
@@ -275,10 +279,10 @@ const ICONS: Record<IconName, JSX.Element> = {
       <path d="m4 7 8 6 8-6" />
     </>
   ),
-  settings: (
+  advisor: (
     <>
-      <circle cx="12" cy="12" r="3" />
-      <path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1" />
+      <rect x="4" y="3" width="16" height="18" rx="2" />
+      <path d="M8 7h8M8 11h.01M12 11h.01M16 11h.01M8 15h.01M12 15h.01M16 15v3M8 18h4" />
     </>
   ),
   panel: (

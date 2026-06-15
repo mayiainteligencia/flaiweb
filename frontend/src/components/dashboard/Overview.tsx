@@ -3,12 +3,6 @@ import { motion } from 'framer-motion';
 import {
   ShieldCheck,
   Sparkles,
-  Landmark,
-  Building2,
-  HeartPulse,
-  Factory,
-  ShoppingBag,
-  GraduationCap,
   MapPin,
   Headphones,
   Gauge,
@@ -19,18 +13,9 @@ import {
 import type { LucideIcon } from 'lucide-react';
 import { SERVICES } from '@/data/services';
 import { INDUSTRIES } from '@/data/industries';
-import type { IndustryIcon } from '@/data/industries';
 import { ROUTES } from '@/constants/routes';
 import { SERVICE_ICONS } from './serviceIcons';
-
-const INDUSTRY_ICONS: Record<IndustryIcon, LucideIcon> = {
-  gobierno: Landmark,
-  banca: Building2,
-  salud: HeartPulse,
-  manufactura: Factory,
-  retail: ShoppingBag,
-  educacion: GraduationCap,
-};
+import { INDUSTRY_ICONS } from './industryIcons';
 
 const PROOFS: { icon: LucideIcon; label: string }[] = [
   { icon: MapPin, label: 'Datos en México' },

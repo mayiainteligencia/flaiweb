@@ -51,5 +51,7 @@ La arquitectura completa está en `ARCHITECTURE.md`. **Léelo antes de crear o m
 - **Ruteo (`App.tsx`)**: `/` = Home (Hero + Dashboard con `<Overview/>`); el resto va dentro de `DashboardLayout` + `<Outlet/>`. Secciones sin construir → `SectionPlaceholder`.
 - **Dashboard**: `DashboardLayout` = Sidebar (solo `lg+`, colapsable) + Header (logo móvil/colapsado, buscador desktop, lupa móvil) + `<main>` + `MobileTabBar` (pill flotante `<lg`, framer-motion, visible solo cuando el dashboard entra en vista). Inicio en `components/dashboard/Overview.tsx`.
 - **Páginas de servicio (10)**: `_ServicePageTemplate.tsx` + `data/serviceDetails.ts`; cada página pasa su `slug`.
+- **Páginas generales**: Industries, Marketplace, TrustCenter, Pricing, Contact, Recursos (en `pages/`), montadas en `App.tsx`. Encabezado común en `components/ui/PageHeader.tsx`. Industrias = catálogo único en `/industries/*` (sin páginas por sector aún); Recursos sirve DOCS/WHITEPAPERS/BLOG. Iconos de industria en `components/dashboard/industryIcons.ts` (compartido con Overview).
+- **Datos**: `data/industries.ts` (con `tagline`/`workloads`) y `data/pricing.ts` (`PLANS` + `PRICE_COMPONENTS`).
 - **Infra:** Tailwind v3 + PostCSS, BrowserRouter, favicon en `public/favicon.svg`.
-- **Pendiente:** páginas de Industrias/Marketplace/Trust Center/Precios/Recursos/Contacto (hoy placeholder), `data/pricing.ts`, code-splitting del bundle.
+- **Pendiente:** páginas por sector de Industrias, Partners (hoy placeholder), status page real del Trust Center, backend del form de Contacto, code-splitting del bundle.

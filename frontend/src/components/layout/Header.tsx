@@ -1,5 +1,8 @@
 import { useState } from 'react';
+import { NavLink } from 'react-router-dom';
+import { ROUTES } from '@/constants/routes';
 import logoFlai from '@/assets/images/logos/logo-FLAI.png';
+import SearchBox from './SearchBox';
 
 function SearchIcon({ className }: { className?: string }) {
   return (
@@ -20,25 +23,23 @@ function SearchIcon({ className }: { className?: string }) {
   );
 }
 
-const inputClass =
-  'h-9 w-full rounded-md border border-border-subtle bg-[var(--surface-input)] pl-9 pr-3 text-sm text-text-primary placeholder:text-text-secondary focus:border-accent focus:outline-none';
-
 export default function Header({ collapsed }: { collapsed: boolean }) {
   const [searchOpen, setSearchOpen] = useState(false);
 
   return (
     <header className="relative flex h-16 shrink-0 items-center gap-3 border-b border-border-subtle bg-header-bg px-4">
       {/* Logo: siempre en móvil; en desktop solo cuando el sidebar está colapsado */}
-      <img
-        src={logoFlai}
-        alt="FLAI"
-        className={['h-7 w-auto shrink-0', collapsed ? 'block' : 'block lg:hidden'].join(' ')}
-      />
+      <NavLink
+        to={ROUTES.HOME}
+        title="Ir a la nube FLAI"
+        className={['shrink-0 transition-opacity hover:opacity-80', collapsed ? 'block' : 'block lg:hidden'].join(' ')}
+      >
+        <img src={logoFlai} alt="FLAI" className="h-7 w-auto" />
+      </NavLink>
 
       {/* Buscador en desktop (centrado) */}
-      <div className="relative mx-auto hidden w-full max-w-md lg:block">
-        <SearchIcon className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-text-secondary" />
-        <input type="search" placeholder="Buscar servicios, industrias, docs…" className={inputClass} />
+      <div className="mx-auto hidden w-full max-w-md lg:block">
+        <SearchBox />
       </div>
 
       {/* Empuja los controles a la derecha en móvil */}
@@ -59,15 +60,9 @@ export default function Header({ collapsed }: { collapsed: boolean }) {
 
       {/* Buscador móvil: cubre el header al abrir la lupa */}
       {searchOpen && (
-        <div className="absolute inset-0 z-10 flex items-center gap-2 bg-header-bg px-4 lg:hidden">
-          <div className="relative flex-1">
-            <SearchIcon className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-text-secondary" />
-            <input
-              autoFocus
-              type="search"
-              placeholder="Buscar servicios, industrias, docs…"
-              className={inputClass}
-            />
+        <div className="absolute inset-0 z-20 flex items-center gap-2 bg-header-bg px-4 lg:hidden">
+          <div className="flex-1">
+            <SearchBox autoFocus onNavigate={() => setSearchOpen(false)} />
           </div>
           <button
             onClick={() => setSearchOpen(false)}

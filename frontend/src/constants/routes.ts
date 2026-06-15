@@ -1,5 +1,6 @@
 export const ROUTES = {
   HOME: '/',
+  DASHBOARD: '/inicio', // dashboard de Inicio (sin el Hero de la nube)
 
   // Servicios cloud
   COMPUTE: '/services/compute',
@@ -32,5 +33,5 @@ export const ROUTES = {
   TRUST_CENTER: '/trust-center',
   PRICING: '/precios',
   CONTACT: '/contacto',
-  SETTINGS: '/configuracion',
+  ADVISOR: '/asesor-cloud', // recomendador/calculadora del mejor servicio
 } as const;
