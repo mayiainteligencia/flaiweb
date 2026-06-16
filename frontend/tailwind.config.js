@@ -10,6 +10,7 @@ export default {
         'sidebar-bg': 'var(--surface-sidebar)',
         'header-bg': 'var(--surface-header)',
         'content-bg': 'var(--surface-content)',
+        card: 'var(--surface-card)',
         'border-subtle': 'var(--border-subtle)',
         'text-primary': 'var(--text-primary)',
         'text-secondary': 'var(--text-secondary)',

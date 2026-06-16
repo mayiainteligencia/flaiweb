@@ -6,6 +6,7 @@ import type { ServiceSlug } from '@/data/services';
 import { SERVICE_DETAILS } from '@/data/serviceDetails';
 import { SERVICE_ICONS } from '@/components/dashboard/serviceIcons';
 import { ROUTES } from '@/constants/routes';
+import { flagAccent } from '@/components/ui/flagAccent';
 
 const reveal = {
   initial: { opacity: 0, y: 16 },
@@ -75,8 +76,8 @@ export default function ServicePage({ slug }: { slug: ServiceSlug }) {
       <motion.section {...reveal}>
         <h2 className="text-xl font-semibold text-text-primary">Beneficios de negocio</h2>
         <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {detail.benefits.map((b) => (
-            <div key={b} className="rounded-xl border border-border-subtle bg-white p-4 text-sm text-text-primary">
+          {detail.benefits.map((b, i) => (
+            <div key={b} className={`rounded-xl border border-border-subtle bg-card p-4 text-sm text-text-primary transition-all hover:-translate-y-0.5 ${flagAccent(i)}`}>
               {b}
             </div>
           ))}
@@ -86,7 +87,7 @@ export default function ServicePage({ slug }: { slug: ServiceSlug }) {
       {/* Seguridad + Precio */}
       <motion.section {...reveal} className="grid gap-4 md:grid-cols-2">
         <ListCard icon={ShieldCheck} title="Seguridad y cumplimiento" items={detail.security} />
-        <div className="rounded-xl border border-border-subtle bg-white p-5">
+        <div className="rounded-xl border border-border-subtle bg-card p-5">
           <h3 className="flex items-center gap-2 font-semibold text-text-primary">
             <Tag size={18} className="text-accent" /> Modelo de precio
           </h3>
@@ -102,7 +103,7 @@ export default function ServicePage({ slug }: { slug: ServiceSlug }) {
 
       {/* CTA final */}
       <motion.section {...reveal}>
-        <div className="rounded-2xl border border-border-subtle bg-white p-8 text-center">
+        <div className="rounded-2xl border border-border-subtle bg-card p-8 text-center">
           <h2 className="text-xl font-semibold text-text-primary">¿Listo para diseñar tu arquitectura?</h2>
           <p className="mx-auto mt-2 max-w-xl text-sm text-text-secondary">
             Habla con un arquitecto FLAI y define la mejor ruta para {service.name} en tu operación.
@@ -129,7 +130,7 @@ function ListCard({
   items: string[];
 }) {
   return (
-    <div className="rounded-xl border border-border-subtle bg-white p-5">
+    <div className="rounded-xl border border-border-subtle bg-card p-5">
       <h3 className="flex items-center gap-2 font-semibold text-text-primary">
         <Icon size={18} className="text-accent" /> {title}
       </h3>

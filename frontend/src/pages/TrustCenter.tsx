@@ -12,6 +12,7 @@ import {
 import type { LucideIcon } from 'lucide-react';
 import { ROUTES } from '@/constants/routes';
 import PageHeader, { reveal } from '@/components/ui/PageHeader';
+import { flagAccent } from '@/components/ui/flagAccent';
 
 // Pilares del Trust Center (Documento guía, sección 9).
 const PILLARS: { icon: LucideIcon; title: string; items: string[] }[] = [
@@ -57,8 +58,8 @@ export default function TrustCenter() {
       />
 
       <motion.section {...reveal} className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {PILLARS.map((p) => (
-          <div key={p.title} className="rounded-xl border border-border-subtle bg-white p-5">
+        {PILLARS.map((p, i) => (
+          <div key={p.title} className={`rounded-xl border border-border-subtle bg-card p-5 transition-all hover:-translate-y-0.5 ${flagAccent(i)}`}>
             <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-accent/10 text-accent">
               <p.icon size={19} />
             </span>
@@ -82,7 +83,7 @@ export default function TrustCenter() {
       </motion.section>
 
       <motion.section {...reveal}>
-        <div className="rounded-2xl border border-border-subtle bg-white p-8 text-center">
+        <div className="rounded-2xl border border-border-subtle bg-card p-8 text-center">
           <h2 className="text-xl font-semibold text-text-primary">¿Necesitas la documentación de cumplimiento?</h2>
           <p className="mx-auto mt-2 max-w-xl text-sm text-text-secondary">
             Solicita certificaciones, políticas, SLA y la matriz de cumplimiento de tu industria.

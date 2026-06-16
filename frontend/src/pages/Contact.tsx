@@ -23,7 +23,7 @@ export default function Contact() {
       />
 
       <div className="grid gap-6 lg:grid-cols-[1.5fr_1fr]">
-        <motion.section {...reveal} className="rounded-xl border border-border-subtle bg-white p-6">
+        <motion.section {...reveal} className="rounded-xl border border-border-subtle bg-card p-6">
           {sent ? (
             <div className="flex flex-col items-center py-12 text-center">
               <CheckCircle2 size={40} className="text-status-ok" />
@@ -116,7 +116,7 @@ function Field({
 
 function InfoCard({ icon: Icon, title, value }: { icon: typeof Mail; title: string; value: string }) {
   return (
-    <div className="flex items-center gap-3 rounded-xl border border-border-subtle bg-white p-4">
+    <div className="flex items-center gap-3 rounded-xl border border-border-subtle bg-card p-4">
       <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-accent/10 text-accent">
         <Icon size={18} />
       </span>

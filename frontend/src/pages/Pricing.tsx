@@ -61,7 +61,7 @@ export default function Pricing() {
             {QUOTE_PLANS.map((plan) => (
               <div
                 key={plan.name}
-                className="rounded-2xl border border-border-subtle bg-white p-5 transition-all hover:-translate-y-0.5 hover:border-accent hover:shadow-[0_0_40px_-14px] hover:shadow-accent/40"
+                className="rounded-2xl border border-border-subtle bg-card p-5 transition-all hover:-translate-y-0.5 hover:border-accent hover:shadow-[0_0_40px_-14px] hover:shadow-accent/40"
               >
                 <h3 className="font-semibold text-text-primary">{plan.name}</h3>
                 <p className="mt-1 text-sm text-text-secondary">{plan.audience}</p>
@@ -77,7 +77,7 @@ export default function Pricing() {
         </div>
 
         {/* Componentes del precio */}
-        <div className="relative z-10 mx-auto mt-12 max-w-5xl rounded-2xl border border-border-subtle bg-content-bg p-6">
+        <div className="relative z-10 mx-auto mt-12 max-w-5xl rounded-2xl border border-border-subtle bg-card p-6">
           <h2 className="flex items-center gap-2 text-lg font-semibold text-text-primary">
             <Tag size={18} className="text-accent" /> Componentes visibles del precio
           </h2>
@@ -111,7 +111,7 @@ export default function Pricing() {
 
 function BillingSwitch({ yearly, onChange }: { yearly: boolean; onChange: (v: boolean) => void }) {
   return (
-    <div className="inline-flex rounded-full border border-border-subtle bg-content-bg p-1">
+    <div className="inline-flex rounded-full border border-border-subtle bg-card p-1">
       {[
         { label: 'Mensual', value: false },
         { label: 'Anual', value: true },
@@ -147,7 +147,7 @@ function PriceCard({ plan, yearly, delay }: { plan: Plan; yearly: boolean; delay
     <motion.div
       {...reveal}
       transition={{ ...reveal.transition, delay }}
-      className={`group relative flex flex-col rounded-2xl border bg-white p-6 transition-all hover:-translate-y-0.5 hover:border-accent hover:shadow-[0_0_50px_-12px] hover:shadow-accent/45 ${
+      className={`group relative flex flex-col rounded-2xl border bg-card p-6 transition-all hover:-translate-y-0.5 hover:border-accent hover:shadow-[0_0_50px_-12px] hover:shadow-accent/45 ${
         plan.featured
           ? 'border-accent shadow-[0_0_50px_-16px] shadow-accent/40'
           : 'border-border-subtle'

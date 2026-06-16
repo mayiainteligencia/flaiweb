@@ -16,6 +16,7 @@ import { INDUSTRIES } from '@/data/industries';
 import { ROUTES } from '@/constants/routes';
 import { SERVICE_ICONS } from './serviceIcons';
 import { INDUSTRY_ICONS } from './industryIcons';
+import { flagAccent } from '@/components/ui/flagAccent';
 
 const PROOFS: { icon: LucideIcon; label: string }[] = [
   { icon: MapPin, label: 'Datos en México' },
@@ -76,13 +77,13 @@ export default function Overview() {
       <motion.section {...reveal}>
         <SectionHead title="Servicios Cloud" desc="Elige lo que necesitas. Cada servicio, una página clara y vendible." />
         <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {SERVICES.map((s) => {
+          {SERVICES.map((s, i) => {
             const Icon = SERVICE_ICONS[s.icon];
             return (
               <NavLink
                 key={s.name}
                 to={s.to}
-                className="group relative flex flex-col rounded-xl border border-border-subtle bg-white p-5 transition-all hover:-translate-y-0.5 hover:border-accent/30 hover:shadow-md"
+                className={`group relative flex flex-col rounded-xl border border-border-subtle bg-card p-5 transition-all hover:-translate-y-0.5 hover:border-accent/30 ${flagAccent(i)}`}
               >
                 <div className="flex items-center justify-between">
                   <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-accent/10 text-accent">
@@ -134,13 +135,13 @@ export default function Overview() {
       <motion.section {...reveal}>
         <SectionHead title="Para quién es" desc="Soluciones para sectores regulados y de misión crítica." />
         <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
-          {INDUSTRIES.map((ind) => {
+          {INDUSTRIES.map((ind, i) => {
             const Icon = INDUSTRY_ICONS[ind.icon];
             return (
               <NavLink
                 key={ind.name}
                 to={ind.to}
-                className="group flex flex-col items-center gap-3 rounded-xl border border-border-subtle bg-white p-5 text-center transition-all hover:-translate-y-0.5 hover:border-accent/30 hover:shadow-md"
+                className={`group flex flex-col items-center gap-3 rounded-xl border border-border-subtle bg-card p-5 text-center transition-all hover:-translate-y-0.5 hover:border-accent/30 ${flagAccent(i)}`}
               >
                 <span className="flex h-11 w-11 items-center justify-center rounded-full bg-accent/10 text-accent">
                   <Icon size={20} />
@@ -154,7 +155,7 @@ export default function Overview() {
 
       {/* Confianza + CTA final */}
       <motion.section {...reveal}>
-        <div className="rounded-2xl border border-border-subtle bg-white p-8 text-center sm:p-10">
+        <div className="rounded-2xl border border-border-subtle bg-card p-8 text-center sm:p-10">
           <h2 className="text-2xl font-semibold text-text-primary">Confianza demostrable, no prometida.</h2>
           <p className="mx-auto mt-3 max-w-2xl text-text-secondary">
             Trust Center con certificaciones, SLA, residencia de datos, status page y modelo de

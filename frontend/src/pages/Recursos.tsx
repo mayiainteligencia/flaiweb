@@ -4,6 +4,7 @@ import { ArrowRight, BookOpen, FileText, Route, GitCompare, Newspaper, Video } f
 import type { LucideIcon } from 'lucide-react';
 import { ROUTES } from '@/constants/routes';
 import PageHeader, { reveal } from '@/components/ui/PageHeader';
+import { flagAccent } from '@/components/ui/flagAccent';
 
 // Recursos (Documento guía, sección 7.1).
 const RESOURCES: { icon: LucideIcon; title: string; desc: string; to: string }[] = [
@@ -25,11 +26,11 @@ export default function Recursos() {
       />
 
       <motion.section {...reveal} className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {RESOURCES.map((r) => (
+        {RESOURCES.map((r, i) => (
           <NavLink
             key={r.title}
             to={r.to}
-            className="group rounded-xl border border-border-subtle bg-white p-5 transition-colors hover:border-accent/40"
+            className={`group rounded-xl border border-border-subtle bg-card p-5 transition-all hover:-translate-y-0.5 hover:border-accent/40 ${flagAccent(i)}`}
           >
             <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-accent/10 text-accent">
               <r.icon size={19} />

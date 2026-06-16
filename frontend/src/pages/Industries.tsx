@@ -5,6 +5,7 @@ import { INDUSTRIES } from '@/data/industries';
 import { INDUSTRY_ICONS } from '@/components/dashboard/industryIcons';
 import { ROUTES } from '@/constants/routes';
 import PageHeader, { reveal } from '@/components/ui/PageHeader';
+import { flagAccent } from '@/components/ui/flagAccent';
 
 export default function Industries() {
   return (
@@ -16,13 +17,13 @@ export default function Industries() {
       />
 
       <motion.section {...reveal} className="grid gap-4 sm:grid-cols-2">
-        {INDUSTRIES.map((ind) => {
+        {INDUSTRIES.map((ind, i) => {
           const Icon = INDUSTRY_ICONS[ind.icon];
           return (
             <NavLink
               key={ind.to}
               to={ind.to}
-              className="group rounded-xl border border-border-subtle bg-white p-5 transition-colors hover:border-accent/40"
+              className={`group rounded-xl border border-border-subtle bg-card p-5 transition-all hover:-translate-y-0.5 hover:border-accent/40 ${flagAccent(i)}`}
             >
               <div className="flex items-start gap-3">
                 <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-accent/10 text-accent">
@@ -50,7 +51,7 @@ export default function Industries() {
       </motion.section>
 
       <motion.section {...reveal}>
-        <div className="rounded-2xl border border-border-subtle bg-white p-8 text-center">
+        <div className="rounded-2xl border border-border-subtle bg-card p-8 text-center">
           <h2 className="text-xl font-semibold text-text-primary">¿Tu industria tiene requisitos específicos?</h2>
           <p className="mx-auto mt-2 max-w-xl text-sm text-text-secondary">
             Diseñamos arquitecturas a medida según tu sector, regulación y cargas de trabajo.

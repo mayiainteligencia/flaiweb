@@ -7,6 +7,7 @@ import type { ServiceSlug } from '@/data/services';
 import { SERVICE_ICONS } from '@/components/dashboard/serviceIcons';
 import { ROUTES } from '@/constants/routes';
 import PageHeader, { reveal } from '@/components/ui/PageHeader';
+import { flagAccent } from '@/components/ui/flagAccent';
 
 type Size = 'pyme' | 'mediana' | 'enterprise';
 type Workload = 'apps' | 'web' | 'datos' | 'devops' | 'continuidad';
@@ -88,7 +89,7 @@ export default function Advisor() {
         subtitle="Responde 5 preguntas y te recomendamos el paquete y los servicios FLAI ideales para tu PyME o corporativo."
       />
 
-      <motion.section {...reveal} className="space-y-6 rounded-2xl border border-border-subtle bg-white p-6">
+      <motion.section {...reveal} className="space-y-6 rounded-2xl border border-border-subtle bg-card p-6">
         <Field label="¿Qué tamaño tiene tu empresa?">
           <div className="grid gap-3 sm:grid-cols-3">
             {SIZE_OPTS.map((o) => (
@@ -152,14 +153,14 @@ export default function Advisor() {
             <div>
               <p className="mb-3 text-sm font-medium text-text-primary">Servicios sugeridos</p>
               <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                {result.services.map((slug) => {
+                {result.services.map((slug, i) => {
                   const s = SERVICE_BY_SLUG[slug];
                   const Icon = SERVICE_ICONS[s.icon];
                   return (
                     <NavLink
                       key={slug}
                       to={s.to}
-                      className="group flex items-start gap-3 rounded-xl border border-border-subtle bg-white p-4 transition-all hover:-translate-y-0.5 hover:border-accent hover:shadow-[0_0_40px_-14px] hover:shadow-accent/40"
+                      className={`group flex items-start gap-3 rounded-xl border border-border-subtle bg-white p-4 transition-all hover:-translate-y-0.5 hover:border-accent ${flagAccent(i)}`}
                     >
                       <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-accent/10 text-accent">
                         <Icon size={18} />

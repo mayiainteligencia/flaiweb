@@ -14,6 +14,7 @@ import {
 import type { LucideIcon } from 'lucide-react';
 import { ROUTES } from '@/constants/routes';
 import PageHeader, { reveal } from '@/components/ui/PageHeader';
+import { flagAccent } from '@/components/ui/flagAccent';
 
 // Categorías iniciales (Documento guía, sección 8.1).
 const CATEGORIES: { icon: LucideIcon; title: string; desc: string }[] = [
@@ -49,8 +50,8 @@ export default function Marketplace() {
       <motion.section {...reveal}>
         <h2 className="text-xl font-semibold text-text-primary">Categorías</h2>
         <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {CATEGORIES.map((c) => (
-            <div key={c.title} className="rounded-xl border border-border-subtle bg-white p-5">
+          {CATEGORIES.map((c, i) => (
+            <div key={c.title} className={`rounded-xl border border-border-subtle bg-card p-5 transition-all hover:-translate-y-0.5 ${flagAccent(i)}`}>
               <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-accent/10 text-accent">
                 <c.icon size={19} />
               </span>
@@ -61,7 +62,7 @@ export default function Marketplace() {
         </div>
       </motion.section>
 
-      <motion.section {...reveal} className="rounded-xl border border-border-subtle bg-white p-6">
+      <motion.section {...reveal} className="rounded-xl border border-border-subtle bg-card p-6">
         <h2 className="text-xl font-semibold text-text-primary">Modelo para partners</h2>
         <ul className="mt-4 grid gap-2 sm:grid-cols-2">
           {MODEL.map((m) => (

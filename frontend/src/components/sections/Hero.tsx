@@ -64,7 +64,7 @@ function VolumetricCloud({ scale }: { scale: number }) {
 // Acerca la cámara hacia la nube conforme se hace scroll.
 function CameraRig({ sectionRef }: { sectionRef: React.RefObject<HTMLElement> }) {
   useFrame((state) => {
-    const target = 9 - scrollProgress(sectionRef.current) * 8.2; // 9 (lejos) -> 0.8 (dentro)
+    const target = 9 - scrollProgress(sectionRef.current) * 9.6; // 9 (lejos) -> dentro de la nube
     state.camera.position.z += (target - state.camera.position.z) * 0.1;
   });
   return null;
@@ -97,13 +97,24 @@ export default function Hero() {
     return () => io.disconnect();
   }, []);
 
-  // Logo/hint se desvanecen al entrar; al final la nube nos envuelve (whiteout).
+  // Logo/hint se desvanecen al entrar; al final la nube nos envuelve (whiteout)
+  // y, al completarse, saltamos rápido al dashboard para no dejar scroll en blanco.
+  const snappedRef = useRef(false);
   useEffect(() => {
     const onScroll = () => {
       const p = scrollProgress(sectionRef.current);
-      if (overlayRef.current) overlayRef.current.style.opacity = String(1 - p * 1.4);
-      // El blanco entra en el último tramo del zoom (0.6 -> 1).
-      if (fogRef.current) fogRef.current.style.opacity = String(Math.max(0, (p - 0.6) / 0.4));
+      if (overlayRef.current) overlayRef.current.style.opacity = String(1 - p * 1.6);
+      // El blanco entra en el último tramo del zoom (0.5 -> 0.85).
+      if (fogRef.current) fogRef.current.style.opacity = String(Math.max(0, (p - 0.5) / 0.35));
+
+      // Whiteout completo → entregamos al dashboard de inmediato (una sola vez).
+      if (p >= 0.85 && !snappedRef.current) {
+        snappedRef.current = true;
+        const dash = document.querySelector('.dashboard');
+        const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        dash?.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+      }
+      if (p < 0.5) snappedRef.current = false; // rearmar al volver a subir
     };
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
