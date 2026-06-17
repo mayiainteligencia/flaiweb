@@ -50,6 +50,11 @@ canvas {
     width: clamp(96px, 30vw, 150px);
   }
 
+  /* Nube más grande en móvil (~1.35x del tamaño base) */
+  .hero__cloud {
+    width: min(95vw, 380px);
+  }
+
   .hero__hint {
     bottom: 2rem;
     font-size: 0.82rem;
