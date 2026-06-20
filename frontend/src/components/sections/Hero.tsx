@@ -36,6 +36,14 @@ export default function Hero() {
   // Logo/hint se desvanecen al entrar; al final la nube nos envuelve (whiteout)
   // y, al completarse, saltamos rápido al dashboard para no dejar scroll en blanco.
   const snappedRef = useRef(false);
+  const rafRef = useRef<number | null>(null);
+  const autoCancelledRef = useRef(false);
+
+  const cancelAuto = () => {
+    autoCancelledRef.current = true;
+    if (rafRef.current) cancelAnimationFrame(rafRef.current);
+  };
+
   useEffect(() => {
     const onScroll = () => {
       const p = scrollProgress(sectionRef.current);
@@ -48,6 +56,7 @@ export default function Hero() {
       // Whiteout completo → entregamos al dashboard de inmediato (una sola vez).
       if (p >= 0.85 && !snappedRef.current) {
         snappedRef.current = true;
+        cancelAuto(); // que el tween no pelee con el scrollIntoView
         const dash = document.querySelector('.dashboard');
         const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         dash?.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
@@ -56,6 +65,42 @@ export default function Hero() {
     };
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  // Auto-zoom: sin pedir scroll. Tras una pausa la nube se acerca sola y entra al
+  // dashboard. Si el usuario toma el control (clic en el logo, rueda, touch) se cancela.
+  useEffect(() => {
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const start = () => {
+      const section = sectionRef.current;
+      if (!section || autoCancelledRef.current) return;
+      const total = section.offsetHeight - window.innerHeight;
+      const target = total * 0.9; // hasta disparar el whiteout/snap
+      if (reduce) return; // accesibilidad: no animamos scroll, dejamos que decida
+      const from = window.scrollY;
+      const dur = 2400;
+      const t0 = performance.now();
+      const tick = (now: number) => {
+        if (autoCancelledRef.current) return;
+        const k = Math.min(1, (now - t0) / dur);
+        const eased = k * k * (3 - 2 * k); // smoothstep
+        window.scrollTo(0, from + (target - from) * eased);
+        if (k < 1) rafRef.current = requestAnimationFrame(tick);
+      };
+      rafRef.current = requestAnimationFrame(tick);
+    };
+    const timer = window.setTimeout(start, 1600);
+    const opts = { passive: true } as const;
+    window.addEventListener('wheel', cancelAuto, opts);
+    window.addEventListener('touchstart', cancelAuto, opts);
+    window.addEventListener('keydown', cancelAuto);
+    return () => {
+      clearTimeout(timer);
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+      window.removeEventListener('wheel', cancelAuto);
+      window.removeEventListener('touchstart', cancelAuto);
+      window.removeEventListener('keydown', cancelAuto);
+    };
   }, []);
 
   return (
@@ -84,7 +129,12 @@ export default function Hero() {
             <img src={logoMayia} alt="MAYIA" className="hero__brand hero__brand--mayia" />
           </div>
 
-          <img className="hero__logo" src={logoFlai} alt="FLAI" />
+          <img
+            className="hero__logo"
+            src={logoFlai}
+            alt="FLAI"
+            onClick={cancelAuto}
+          />
           <div className="hero__hint">
             <span className="hero__hint-label">Desliza para conocer más sobre esta nube soberana</span>
             <span className="hero__hint-track" aria-hidden>

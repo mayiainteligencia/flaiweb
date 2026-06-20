@@ -115,11 +115,13 @@
 
 .hero__logo {
   position: absolute;
-  top: 50%;
+  top: 52%; /* centrado en el cuerpo de la nube (origen del zoom ~56%) */
   left: 50%;
   transform: translate(-50%, -50%);
-  width: clamp(120px, 13vw, 200px);
+  width: clamp(170px, 19vw, 300px);
   height: auto;
+  pointer-events: auto; /* clickeable aunque el overlay no capture eventos */
+  cursor: pointer;
 }
 
 /* Marcas del extremo izquierdo (se desvanecen con el overlay al entrar) */

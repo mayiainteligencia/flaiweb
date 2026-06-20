@@ -1,29 +1,42 @@
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
+import { Mail, Phone, MessageCircle, Calendar, Search as SearchIcon, ChevronLeft, X } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 import { ROUTES } from '@/constants/routes';
+import { CONTACT } from '@/data/contact';
 import logoFlai from '@/assets/images/logos/logo-FLAI.png';
 import SearchBox from './SearchBox';
 
-function SearchIcon({ className }: { className?: string }) {
+// Fecha de hoy, formato corto "18 jun 2026".
+const TODAY = new Intl.DateTimeFormat('es-MX', { day: 'numeric', month: 'short', year: 'numeric' })
+  .format(new Date())
+  .replace('.', '');
+
+function Action({
+  href,
+  icon: Icon,
+  label,
+  external,
+}: {
+  href: string;
+  icon: LucideIcon;
+  label: string;
+  external?: boolean;
+}) {
   return (
-    <svg
-      className={className}
-      width="16"
-      height="16"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
+    <a
+      href={href}
+      title={label}
+      {...(external ? { target: '_blank', rel: 'noreferrer' } : {})}
+      className="inline-flex h-9 items-center gap-2 rounded-full border border-border-subtle px-3 text-sm font-medium text-text-secondary transition-colors hover:border-accent hover:text-accent"
     >
-      <circle cx="11" cy="11" r="7" />
-      <path d="m21 21-4.3-4.3" />
-    </svg>
+      <Icon size={16} />
+      <span className="hidden lg:inline">{label}</span>
+    </a>
   );
 }
 
-export default function Header({ collapsed }: { collapsed: boolean }) {
+export default function Header({ collapsed, onToggle }: { collapsed: boolean; onToggle: () => void }) {
   const [searchOpen, setSearchOpen] = useState(false);
 
   return (
@@ -32,13 +45,22 @@ export default function Header({ collapsed }: { collapsed: boolean }) {
       <NavLink
         to={ROUTES.HOME}
         title="Ir a la nube FLAI"
-        className={['shrink-0 transition-opacity hover:opacity-80', collapsed ? 'block' : 'block lg:hidden'].join(' ')}
+        className={['shrink-0', collapsed ? 'block' : 'block lg:hidden'].join(' ')}
       >
-        <img src={logoFlai} alt="FLAI" className="h-7 w-auto" />
+        <img src={logoFlai} alt="FLAI" className="logo-glow h-7 w-auto" />
       </NavLink>
 
-      {/* Buscador en desktop (centrado) */}
-      <div className="mx-auto hidden w-full max-w-md lg:block">
+      {/* Colapsar/expandir el sidebar (desktop) */}
+      <button
+        onClick={onToggle}
+        aria-label={collapsed ? 'Expandir menú' : 'Colapsar menú'}
+        className="hidden h-8 w-8 shrink-0 items-center justify-center rounded-full bg-accent text-white shadow-[0_0_12px_rgba(255,42,42,0.45)] transition-transform hover:scale-105 lg:flex"
+      >
+        <ChevronLeft size={16} className={collapsed ? 'rotate-180' : ''} />
+      </button>
+
+      {/* Barra del asistente (desktop, centrada) */}
+      <div className="mx-auto hidden w-full max-w-2xl lg:block">
         <SearchBox />
       </div>
 
@@ -51,12 +73,19 @@ export default function Header({ collapsed }: { collapsed: boolean }) {
         aria-label="Buscar"
         className="flex h-9 w-9 items-center justify-center rounded-md text-text-secondary transition-colors hover:bg-hover-bg hover:text-text-primary lg:hidden"
       >
-        <SearchIcon />
+        <SearchIcon size={18} />
       </button>
 
-      <button className="shrink-0 rounded-md bg-accent px-4 py-2 text-sm font-semibold text-white transition-opacity hover:opacity-90">
-        Cotiza ahora
-      </button>
+      {/* Acciones rápidas (labels solo en desktop) */}
+      <nav className="flex shrink-0 items-center gap-2">
+        <Action href={CONTACT.whatsapp} icon={MessageCircle} label="WhatsApp" external />
+        <Action href={CONTACT.email} icon={Mail} label="Email" />
+        <Action href={CONTACT.phone} icon={Phone} label="Llamar" />
+        <span className="hidden items-center gap-2 rounded-full bg-[var(--color-graphite)] px-3.5 py-2 text-xs font-medium text-white xl:inline-flex">
+          <Calendar size={14} className="text-[var(--color-silver)]" />
+          {TODAY}
+        </span>
+      </nav>
 
       {/* Buscador móvil: cubre el header al abrir la lupa */}
       {searchOpen && (
@@ -69,9 +98,7 @@ export default function Header({ collapsed }: { collapsed: boolean }) {
             aria-label="Cerrar búsqueda"
             className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md text-text-secondary transition-colors hover:bg-hover-bg hover:text-text-primary"
           >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
-              <path d="M6 6l12 12M18 6 6 18" />
-            </svg>
+            <X size={18} />
           </button>
         </div>
       )}

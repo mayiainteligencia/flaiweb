@@ -27,7 +27,7 @@ export default function DashboardLayout({ children }: { children?: ReactNode }) 
       <Sidebar collapsed={collapsed} onToggle={() => setCollapsed((v) => !v)} />
 
       <div className="flex flex-1 flex-col overflow-hidden">
-        <Header collapsed={collapsed} />
+        <Header collapsed={collapsed} onToggle={() => setCollapsed((v) => !v)} />
         {/* pb extra en móvil para no quedar tapado por la barra inferior */}
         <main className="flex-1 overflow-y-auto p-4 pb-28 sm:p-6 lg:p-8 lg:pb-8">{children}</main>
       </div>

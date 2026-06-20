@@ -62,19 +62,19 @@ const NAV: NavNode[] = [
 
 const itemClass = (collapsed: boolean) => (active: boolean) =>
   [
-    'group flex items-center h-10 rounded-md text-sm border-l-[3px] transition-colors duration-150',
+    'group flex items-center h-10 rounded-md text-sm border-l-[3px] transition-all duration-200',
     collapsed ? 'justify-center px-0' : 'gap-3 px-3',
     active
-      ? 'bg-active-bg border-accent text-accent'
-      : 'border-transparent text-text-secondary hover:bg-hover-bg hover:text-text-primary',
+      ? 'bg-white/[0.12] border-accent text-white shadow-[0_0_14px_rgba(255,26,26,0.35)]'
+      : 'border-transparent text-white/65 hover:bg-white/10 hover:text-white hover:translate-x-0.5',
   ].join(' ');
 
 const leafClass = (active: boolean) =>
   [
-    'flex items-center justify-between h-9 pl-[2.6rem] pr-3 text-[0.82rem] border-l-[3px] transition-colors duration-150',
+    'flex items-center justify-between h-9 pl-[2.6rem] pr-3 text-[0.82rem] border-l-[3px] transition-all duration-200',
     active
-      ? 'bg-active-bg border-accent text-accent'
-      : 'border-transparent text-text-secondary hover:bg-hover-bg hover:text-text-primary',
+      ? 'bg-white/[0.12] border-accent text-white shadow-[0_0_14px_rgba(255,26,26,0.35)]'
+      : 'border-transparent text-white/60 hover:bg-white/10 hover:text-white hover:translate-x-0.5',
   ].join(' ');
 
 export default function Sidebar({
@@ -97,23 +97,24 @@ export default function Sidebar({
 
   return (
     <aside
+      style={{ background: 'var(--sidebar-gradient)' }}
       className={[
-        'hidden h-screen flex-col border-r border-border-subtle bg-sidebar-bg',
+        'hidden h-screen flex-col border-r border-white/10',
         'lg:flex lg:static lg:shrink-0 lg:transition-[width]',
         collapsed ? 'lg:w-16' : 'lg:w-60',
       ].join(' ')}
     >
       {/* Logo centrado + toggle de colapso */}
-      <div className="relative flex h-16 items-center justify-center border-b border-border-subtle px-2">
+      <div className="relative flex h-16 items-center justify-center border-b border-white/10 px-2">
         {!collapsed && (
-          <NavLink to={ROUTES.HOME} title="Ir a la nube FLAI" className="transition-opacity hover:opacity-80">
-            <img src={logoFlai} alt="FLAI" className="h-7 w-auto" />
+          <NavLink to={ROUTES.HOME} title="Ir a la nube FLAI">
+            <img src={logoFlai} alt="FLAI" className="logo-glow h-8 w-auto" />
           </NavLink>
         )}
         <button
           onClick={onToggle}
           aria-label={collapsed ? 'Expandir menú' : 'Colapsar menú'}
-          className="absolute right-2 hidden h-9 w-9 items-center justify-center rounded-md text-text-secondary transition-colors hover:bg-hover-bg hover:text-text-primary lg:flex"
+          className="absolute right-2 hidden h-9 w-9 items-center justify-center rounded-md text-white/60 transition-colors hover:bg-white/10 hover:text-white lg:flex"
         >
           <Icon name="panel" />
         </button>
@@ -139,7 +140,7 @@ export default function Sidebar({
                 onClick={() => toggleGroup(node.key)}
                 title={collapsed ? node.label : undefined}
                 className={[
-                  'flex h-10 w-full items-center rounded-md text-[0.7rem] font-semibold uppercase tracking-[0.12em] text-text-secondary transition-colors hover:text-text-primary',
+                  'flex h-10 w-full items-center rounded-md text-[0.7rem] font-semibold uppercase tracking-[0.12em] text-white/55 transition-colors hover:text-white',
                   collapsed ? 'justify-center px-0' : 'gap-3 px-3',
                 ].join(' ')}
               >
@@ -176,7 +177,7 @@ export default function Sidebar({
       </nav>
 
       {/* Asesor Cloud, separado abajo */}
-      <div className="border-t border-border-subtle px-2 py-3">
+      <div className="border-t border-white/10 px-2 py-3">
         <NavLink
           to={ROUTES.ADVISOR}
           title={collapsed ? 'Asesor Cloud' : undefined}

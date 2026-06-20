@@ -20,6 +20,8 @@ export default {
       },
       fontFamily: {
         display: 'var(--font-display)',
+        heading: 'var(--font-heading)',
+        body: 'var(--font-body)',
       },
     },
   },

@@ -1,8 +1,12 @@
 :root {
-  --color-black: #0a0a0a;
-  --color-red: #ff1a1a;
-  --color-white: #ffffff;
-  --color-status-ok: #22c55e;
+  /* Paleta de marca FLAI */
+  --color-black: #050608;   /* Negro profundo — base dominante */
+  --color-graphite: #0B0E12; /* Grafito cloud / antracita — paneles */
+  --color-red: #FF2A2A;     /* Rojo FLAI — energía / acento */
+  --color-green: #B7FF00;   /* Verde nube viva — disponibilidad / datos */
+  --color-silver: #B8C0CA;  /* Plata metálica — infraestructura */
+  --color-white: #F4F7FA;   /* Blanco operativo — texto clave */
+  --color-status-ok: #22c55e; /* legible sobre el dashboard claro; verde marca = --color-green */
 
   /* Superficies del dashboard (fondo blanco, recuadros gris claro) */
   --surface-sidebar: #ffffff;
@@ -14,17 +18,43 @@
 
   /* Texto */
   --text-primary: #171717;
-  --text-secondary: #6b7280;
+  --text-secondary: #66707D; /* Gris nodo */
 
   /* Estados del sidebar */
   --sidebar-active-bg: #ffe5e5;
   --sidebar-hover-bg: #f4f4f5;
 
-  --font-display: 'Inter', system-ui, sans-serif;
+  /* Tipografía institucional: títulos Helvetica/Open Sauce, texto Gordita/Poppins.
+     (Gordita y Open Sauce no son webfonts libres; Helvetica del sistema y Poppins las cubren.) */
+  --font-heading: 'Helvetica Neue', Helvetica, 'Open Sauce Sans', Arial, sans-serif;
+  --font-body: 'Gordita', 'Poppins', system-ui, sans-serif;
+  --font-display: var(--font-body); /* alias para la clase Tailwind `font-display` */
 
   --radius-md: 0.5rem;
 
   --shadow-neon: 0 0 8px rgba(255, 26, 26, 0.6), 0 0 20px rgba(255, 26, 26, 0.25);
+
+  /* Sidebar oscuro: rojo arriba → negro abajo */
+  --sidebar-gradient: linear-gradient(180deg, #9e1818 0%, #3a0a0a 32%, var(--color-graphite) 68%, var(--color-black) 100%);
+}
+
+/* Logo del sidebar: resalta con un latido suave de glow rojo */
+.logo-glow {
+  filter: drop-shadow(0 0 6px rgba(255, 26, 26, 0.55));
+  animation: logo-pulse 3.2s ease-in-out infinite;
+  transition: transform 0.2s ease;
+}
+.logo-glow:hover {
+  transform: scale(1.06);
+}
+
+@keyframes logo-pulse {
+  0%, 100% { filter: drop-shadow(0 0 5px rgba(255, 26, 26, 0.4)); }
+  50% { filter: drop-shadow(0 0 14px rgba(255, 26, 26, 0.85)); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .logo-glow { animation: none; }
 }
 
 * {
@@ -42,6 +72,10 @@ body,
 body {
   background: var(--color-black);
   color: var(--color-white);
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
 }
