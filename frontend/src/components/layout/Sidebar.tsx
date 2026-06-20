@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { ROUTES } from '@/constants/routes';
-import logoFlai from '@/assets/images/logos/logo-FLAI.png';
 
 type NavLeaf = { label: string; to: string; badge?: string };
 type NavNode =
@@ -99,29 +98,13 @@ export default function Sidebar({
     <aside
       style={{ background: 'var(--sidebar-gradient)' }}
       className={[
-        'hidden h-screen flex-col border-r border-white/10',
+        'hidden h-full flex-col border-r border-white/10',
         'lg:flex lg:static lg:shrink-0 lg:transition-[width]',
         collapsed ? 'lg:w-16' : 'lg:w-60',
       ].join(' ')}
     >
-      {/* Logo centrado + toggle de colapso */}
-      <div className="relative flex h-16 items-center justify-center border-b border-white/10 px-2">
-        {!collapsed && (
-          <NavLink to={ROUTES.HOME} title="Ir a la nube FLAI">
-            <img src={logoFlai} alt="FLAI" className="logo-glow h-8 w-auto" />
-          </NavLink>
-        )}
-        <button
-          onClick={onToggle}
-          aria-label={collapsed ? 'Expandir menú' : 'Colapsar menú'}
-          className="absolute right-2 hidden h-9 w-9 items-center justify-center rounded-md text-white/60 transition-colors hover:bg-white/10 hover:text-white lg:flex"
-        >
-          <Icon name="panel" />
-        </button>
-      </div>
-
       {/* Navegación con scroll independiente */}
-      <nav className="flex-1 overflow-y-auto px-2 py-3">
+      <nav className="no-scrollbar flex-1 overflow-y-auto px-2 py-3">
         {NAV.map((node) =>
           node.type === 'item' ? (
             <NavLink

@@ -41,13 +41,9 @@ export default function Header({ collapsed, onToggle }: { collapsed: boolean; on
 
   return (
     <header className="relative flex h-16 shrink-0 items-center gap-3 border-b border-border-subtle bg-header-bg px-4">
-      {/* Logo: siempre en móvil; en desktop solo cuando el sidebar está colapsado */}
-      <NavLink
-        to={ROUTES.HOME}
-        title="Ir a la nube FLAI"
-        className={['shrink-0', collapsed ? 'block' : 'block lg:hidden'].join(' ')}
-      >
-        <img src={logoFlai} alt="FLAI" className="logo-glow h-7 w-auto" />
+      {/* Logo de FLAI: siempre visible en la barra superior */}
+      <NavLink to={ROUTES.HOME} title="Ir a la nube FLAI" className="shrink-0">
+        <img src={logoFlai} alt="FLAI" className="h-8 w-auto" />
       </NavLink>
 
       {/* Colapsar/expandir el sidebar (desktop) */}

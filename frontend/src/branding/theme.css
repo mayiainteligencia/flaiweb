@@ -10,7 +10,7 @@
 
   /* Superficies del dashboard (fondo blanco, recuadros gris claro) */
   --surface-sidebar: #ffffff;
-  --surface-header: #ffffff;
+  --surface-header: #C9CED4; /* gris de prueba (como la captura) */
   --surface-content: #ffffff;
   --surface-card: #f4f4f5; /* recuadros / tarjetas */
   --surface-input: #ffffff;
@@ -61,6 +61,19 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+/* Ocultar scrollbars (se conserva el scroll) — ventana y contenedores .no-scrollbar */
+html,
+body,
+.no-scrollbar {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge viejo */
+}
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+.no-scrollbar::-webkit-scrollbar {
+  display: none; /* Chrome/Safari */
 }
 
 html,

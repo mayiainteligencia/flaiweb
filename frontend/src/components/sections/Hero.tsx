@@ -78,7 +78,7 @@ export default function Hero() {
       const target = total * 0.9; // hasta disparar el whiteout/snap
       if (reduce) return; // accesibilidad: no animamos scroll, dejamos que decida
       const from = window.scrollY;
-      const dur = 2400;
+      const dur = 1700;
       const t0 = performance.now();
       const tick = (now: number) => {
         if (autoCancelledRef.current) return;
@@ -89,7 +89,7 @@ export default function Hero() {
       };
       rafRef.current = requestAnimationFrame(tick);
     };
-    const timer = window.setTimeout(start, 1600);
+    const timer = window.setTimeout(start, 1100);
     const opts = { passive: true } as const;
     window.addEventListener('wheel', cancelAuto, opts);
     window.addEventListener('touchstart', cancelAuto, opts);

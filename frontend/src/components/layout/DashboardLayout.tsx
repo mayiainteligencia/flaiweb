@@ -21,15 +21,16 @@ export default function DashboardLayout({ children }: { children?: ReactNode }) 
   return (
     <div
       ref={rootRef}
-      className="flex h-screen overflow-hidden bg-content-bg font-display text-text-primary"
+      className="flex h-screen flex-col overflow-hidden bg-content-bg font-display text-text-primary"
     >
-      {/* Sidebar: solo desktop. En móvil la navegación vive en la barra inferior. */}
-      <Sidebar collapsed={collapsed} onToggle={() => setCollapsed((v) => !v)} />
+      {/* Header full-width: abarca todo el ancho, incluido el logo de FLAI */}
+      <Header collapsed={collapsed} onToggle={() => setCollapsed((v) => !v)} />
 
-      <div className="flex flex-1 flex-col overflow-hidden">
-        <Header collapsed={collapsed} onToggle={() => setCollapsed((v) => !v)} />
+      <div className="flex flex-1 overflow-hidden">
+        {/* Sidebar: solo desktop. En móvil la navegación vive en la barra inferior. */}
+        <Sidebar collapsed={collapsed} onToggle={() => setCollapsed((v) => !v)} />
         {/* pb extra en móvil para no quedar tapado por la barra inferior */}
-        <main className="flex-1 overflow-y-auto p-4 pb-28 sm:p-6 lg:p-8 lg:pb-8">{children}</main>
+        <main className="no-scrollbar flex-1 overflow-y-auto p-4 pb-28 sm:p-6 lg:p-8 lg:pb-8">{children}</main>
       </div>
 
       <MobileTabBar visible={inView} />
