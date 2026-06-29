@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { Mail, Phone, MessageCircle, Calendar, Search as SearchIcon, ChevronLeft, X } from 'lucide-react';
+import { BadgeDollarSign, Headphones, Cpu, UserRound, Calendar, Search as SearchIcon, ChevronLeft, X } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { ROUTES } from '@/constants/routes';
 import { CONTACT } from '@/data/contact';
@@ -13,25 +13,39 @@ const TODAY = new Intl.DateTimeFormat('es-MX', { day: 'numeric', month: 'short',
   .replace('.', '');
 
 function Action({
+  to,
   href,
   icon: Icon,
   label,
   external,
 }: {
-  href: string;
+  to?: string;
+  href?: string;
   icon: LucideIcon;
   label: string;
   external?: boolean;
 }) {
-  return (
+  const className =
+    'inline-flex h-9 items-center gap-2 rounded-full border border-border-subtle px-3 text-sm font-medium text-text-secondary transition-colors hover:border-accent hover:text-accent';
+  const inner = (
+    <>
+      <Icon size={16} />
+      {/* Etiqueta solo en xl: caben 4 botones sin saturar el header */}
+      <span className="hidden xl:inline">{label}</span>
+    </>
+  );
+  return to ? (
+    <NavLink to={to} title={label} className={className}>
+      {inner}
+    </NavLink>
+  ) : (
     <a
       href={href}
       title={label}
       {...(external ? { target: '_blank', rel: 'noreferrer' } : {})}
-      className="inline-flex h-9 items-center gap-2 rounded-full border border-border-subtle px-3 text-sm font-medium text-text-secondary transition-colors hover:border-accent hover:text-accent"
+      className={className}
     >
-      <Icon size={16} />
-      <span className="hidden lg:inline">{label}</span>
+      {inner}
     </a>
   );
 }
@@ -74,9 +88,10 @@ export default function Header({ collapsed, onToggle }: { collapsed: boolean; on
 
       {/* Acciones rápidas (labels solo en desktop) */}
       <nav className="flex shrink-0 items-center gap-2">
-        <Action href={CONTACT.whatsapp} icon={MessageCircle} label="WhatsApp" external />
-        <Action href={CONTACT.email} icon={Mail} label="Email" />
-        <Action href={CONTACT.phone} icon={Phone} label="Llamar" />
+        <Action href={CONTACT.sales} icon={BadgeDollarSign} label="Ventas" external />
+        <Action href={CONTACT.support} icon={Headphones} label="Soporte" />
+        <Action to={ROUTES.AI_CLOUD} icon={Cpu} label="Prueba GPU" />
+        <Action href={CONTACT.ceo} icon={UserRound} label="Hablar con CEO" />
         <span className="hidden items-center gap-2 rounded-full bg-[var(--color-graphite)] px-3.5 py-2 text-xs font-medium text-white xl:inline-flex">
           <Calendar size={14} className="text-[var(--color-silver)]" />
           {TODAY}

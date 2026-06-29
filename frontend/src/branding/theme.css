@@ -57,6 +57,70 @@
   .logo-glow { animation: none; }
 }
 
+/* CTA llamativo: latido de glow rojo + leve realce al hover */
+.cta-glow {
+  animation: cta-pulse 2.2s ease-in-out infinite;
+  transition: transform 0.2s ease;
+}
+.cta-glow:hover {
+  transform: translateY(-1px) scale(1.03);
+}
+
+@keyframes cta-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 42, 42, 0.45); }
+  50% { box-shadow: 0 0 22px 4px rgba(255, 42, 42, 0.55); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cta-glow { animation: none; }
+}
+
+/* Imagen del Home: se desvanece y reaparece (solo opacidad, ligero para GPU) */
+.img-fade {
+  animation: img-fade 4.5s ease-in-out infinite;
+}
+
+@keyframes img-fade {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .img-fade { animation: none; }
+}
+
+/* Gráficas de las cards: la onda se desplaza horizontal (tipo monitor), bucle continuo.
+   La línea mide 2× el ancho con periodos enteros, así translateX(-240) calza sin saltos. */
+.chart-scroll {
+  animation: chart-scroll linear infinite;
+}
+
+@keyframes chart-scroll {
+  from { transform: translateX(-240px); }
+  to { transform: translateX(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chart-scroll { animation: none; }
+}
+
+/* Mascota nube del sidebar: flota suave (solo transform) + glow estático, ligero para GPU */
+.sidebar-cloud {
+  will-change: transform;
+  animation: sidebar-cloud-float 7s ease-in-out infinite;
+  filter: drop-shadow(0 6px 16px rgba(244, 247, 250, 0.12))
+    drop-shadow(0 0 22px rgba(255, 42, 42, 0.18));
+}
+
+@keyframes sidebar-cloud-float {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-6px) scale(1.03); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sidebar-cloud { animation: none; }
+}
+
 * {
   margin: 0;
   padding: 0;

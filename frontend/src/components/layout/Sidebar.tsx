@@ -104,7 +104,7 @@ export default function Sidebar({
       ].join(' ')}
     >
       {/* Navegación con scroll independiente */}
-      <nav className="no-scrollbar flex-1 overflow-y-auto px-2 py-3">
+      <nav className="no-scrollbar min-h-0 shrink overflow-y-auto px-2 py-3">
         {NAV.map((node) =>
           node.type === 'item' ? (
             <NavLink
@@ -158,6 +158,9 @@ export default function Sidebar({
           ),
         )}
       </nav>
+
+      {/* Empuja el Asesor Cloud al fondo */}
+      <div className="min-h-0 flex-1" />
 
       {/* Asesor Cloud, separado abajo */}
       <div className="border-t border-white/10 px-2 py-3">
