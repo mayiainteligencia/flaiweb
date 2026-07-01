@@ -95,9 +95,11 @@
   animation: chart-rise linear infinite;
 }
 
+/* La cometa recorre la escalera y se apaga al llegar al botón (se "reparte" en él). */
 @keyframes chart-rise {
   from { offset-distance: 0%; opacity: 0; }
-  10%, 85% { opacity: 1; }
+  10% { opacity: 1; }
+  92% { opacity: 1; }
   to { offset-distance: 100%; opacity: 0; }
 }
 
@@ -105,29 +107,15 @@
   .chart-comet { animation: none; offset-distance: 100%; opacity: 1; }
 }
 
-/* LED de cada barra (servidor): parpadeo suave desfasado, simula actividad. */
-.server-led {
-  animation: server-led 2.4s ease-in-out infinite;
-}
-
-@keyframes server-led {
-  0%, 100% { opacity: 0.35; }
-  50% { opacity: 1; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .server-led { animation: none; opacity: 1; }
-}
-
-/* CTA "Click aquí": destella cuando la cometa llega (misma duración → en fase). */
+/* CTA "Click aquí": el LED llega y se distribuye en el botón (misma duración → en fase). */
 .cta-arrive {
   animation: cta-arrive linear infinite;
 }
 
 @keyframes cta-arrive {
-  0%, 72% { box-shadow: 0 0 0 0 transparent; }
-  86% { box-shadow: 0 0 18px 2px currentColor; }
-  100% { box-shadow: 0 0 0 0 transparent; }
+  0%, 84% { box-shadow: 0 0 0 0 transparent; background-color: transparent; }
+  96% { box-shadow: 0 0 22px 3px currentColor; background-color: color-mix(in srgb, currentColor 22%, transparent); }
+  100% { box-shadow: 0 0 0 0 transparent; background-color: transparent; }
 }
 
 @media (prefers-reduced-motion: reduce) {

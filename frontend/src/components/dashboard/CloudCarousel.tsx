@@ -2,14 +2,12 @@ import { useState, useEffect, useCallback } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useReducedMotion } from 'framer-motion';
 import img1 from '@/assets/images/hero/2.jpg';
-import img2 from '@/assets/images/hero/flaiCar.jpg';
-import img3 from '@/assets/images/hero/4.jpg';
+import img2 from '@/assets/images/hero/4.jpg';
 
-// Coverflow para la imagen del Home. Mantiene el tamaño original (w-72, aspect-[3/4]).
+// Coverflow para la imagen del Home. Mantiene el tamaño original (w-60, aspect-[3/4]).
 const IMAGES = [
   { src: img1, alt: 'FLAI' },
   { src: img2, alt: 'FLAI' },
-  { src: img3, alt: 'FLAI' },
 ];
 
 export default function CloudCarousel() {

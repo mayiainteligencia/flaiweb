@@ -152,17 +152,21 @@ export default function Overview() {
         <p className="mt-3 text-lg text-text-secondary sm:text-xl">Elige el tipo de nube que necesitas</p>
         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {CLOUD_TYPES.map((t, i) => {
-            // Todas rojas; solo AI Cloud en verde limón.
-            const color = t.name.includes('AI Cloud') ? 'var(--color-green)' : 'var(--color-red)';
+            // Verde por defecto; AI Cloud roja; la de "Próximamente" (Hybrid) blanca.
+            const color = t.name.includes('AI Cloud')
+              ? 'var(--color-red)'
+              : t.badge === 'Próximamente'
+                ? 'var(--color-white)'
+                : 'var(--color-green)';
             return (
               <NavLink
                 key={t.name}
                 to={t.to}
-                className="group relative flex min-h-[15rem] flex-col justify-end overflow-hidden rounded-xl border border-white/10 bg-[var(--color-black)] p-6 transition-all hover:-translate-y-0.5 hover:border-white/25"
+                className="group relative flex min-h-[15rem] flex-col justify-start overflow-hidden rounded-xl border border-white/10 bg-[var(--color-black)] p-6 transition-all hover:-translate-y-0.5 hover:border-white/25"
               >
                 <CardChart color={color} seed={i} />
-                {/* Difuminado inferior: la línea se apaga al pasar bajo el texto */}
-                <div className="pointer-events-none absolute inset-x-0 bottom-0 z-0 h-2/3 bg-gradient-to-t from-[var(--color-black)] via-[var(--color-black)]/85 to-transparent" />
+                {/* Difuminado superior: la línea se apaga al pasar bajo el texto */}
+                <div className="pointer-events-none absolute inset-x-0 top-0 z-0 h-2/3 bg-gradient-to-b from-[var(--color-black)] via-[var(--color-black)]/85 to-transparent" />
                 {/* CTA en la cima de la línea */}
                 <span
                   className="cta-arrive absolute right-4 top-4 z-10 inline-flex items-center gap-1 rounded-full border px-3 py-1 text-xs font-semibold uppercase tracking-wide transition-transform group-hover:translate-x-0.5"
@@ -170,7 +174,7 @@ export default function Overview() {
                 >
                   Click aquí <ArrowUpRight size={14} />
                 </span>
-                <div className="relative z-10 max-w-[85%]">
+                <div className="relative z-10 mt-12 max-w-[90%]">
                   <h3 className="flex flex-wrap items-center gap-2 text-xl font-bold text-white sm:text-2xl">
                     {t.name}
                     {t.badge && (
@@ -378,35 +382,46 @@ export default function Overview() {
   );
 }
 
-// Gráfica de fondo: línea SIEMPRE ascendente (nunca baja) de abajo-izq a arriba-der,
-// donde está el CTA. Una cometa recorre la línea en bucle hasta el botón (offset-path).
+// Gráfica de fondo: línea en escalera (sube 45° / se mantiene 0° / sube 45°...),
+// siempre ascendente hasta el CTA. Las barras acompañan la línea (sin luces).
+// La cometa recorre la escalera y termina justo en el botón (offset-path).
 function CardChart({ color, seed }: { color: string; seed: number }) {
   const W = 300;
   const H = 200;
-  const N = 7;
-  const y0 = H * 0.92; // inicio abajo
-  const y1 = H * 0.08; // fin arriba (junto al CTA)
-  const pts: [number, number][] = [];
-  let prev = y0;
-  for (let k = 0; k <= N; k++) {
-    const base = y0 + (y1 - y0) * (k / N); // rampa lineal ascendente
-    const jitter = (((seed * 17 + k * 29) % 11) / 11) * (H * 0.06);
-    const y = Math.min(prev, base - jitter); // min → nunca sube de nivel: jamás baja visualmente
-    prev = y;
-    pts.push([(k / N) * W, y]);
+  const steps = 4;
+  const y0 = H * 0.9; // inicio abajo
+  const top = H * 0.08; // fin arriba (junto al CTA)
+  const dy = (y0 - top) / steps;
+  // Escalones: rampa (sube) + meseta (se mantiene), alternados; termina en rampa arriba.
+  const raw: [number, number][] = [[0, y0]];
+  let x = 0;
+  let y = y0;
+  for (let s = 0; s < steps; s++) {
+    x += 0.6; y -= dy; raw.push([x, y]); // sube ~45°
+    if (s < steps - 1) { x += 0.4; raw.push([x, y]); } // se mantiene 0°
   }
-  const line = pts.map(([x, y]) => `${x.toFixed(1)},${y.toFixed(1)}`).join(' ');
-  const d = 'M ' + pts.map(([x, y]) => `${x.toFixed(1)} ${y.toFixed(1)}`).join(' L ');
+  const sx = W / x; // normaliza para terminar en x = W (esquina del botón)
+  const pts = raw.map(([px, py]) => [px * sx, py] as [number, number]);
+  const line = pts.map(([px, py]) => `${px.toFixed(1)},${py.toFixed(1)}`).join(' ');
+  const d = 'M ' + pts.map(([px, py]) => `${px.toFixed(1)} ${py.toFixed(1)}`).join(' L ');
   const gid = `card-grad-${seed}`;
-  // Barras de fondo ascendentes (racks de servidores): cada una con un punto encendido arriba.
-  const BARS = 8;
+
+  // y de la línea en un x dado → las barras suben hasta acompañar la escalera.
+  const lineYAt = (qx: number) => {
+    for (let k = 1; k < pts.length; k++) {
+      const [x1, y1] = pts[k - 1];
+      const [x2, y2] = pts[k];
+      if (qx <= x2) {
+        const t = x2 === x1 ? 0 : (qx - x1) / (x2 - x1);
+        return y1 + (y2 - y1) * t;
+      }
+    }
+    return pts[pts.length - 1][1];
+  };
+  const BARS = 11;
   const slot = W / BARS;
-  const bw = slot * 0.5;
-  const bars = Array.from({ length: BARS }, (_, b) => {
-    const h = H * (0.16 + 0.72 * (b / (BARS - 1)));
-    const cx = slot * (b + 0.5);
-    return { x: cx - bw / 2, y: H - h, h, cx };
-  });
+  const bw = slot * 0.55;
+
   return (
     <svg viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" className="absolute inset-0 z-0 h-full w-full" aria-hidden>
       <defs>
@@ -416,19 +431,11 @@ function CardChart({ color, seed }: { color: string; seed: number }) {
           <stop offset="100%" stopColor={color} stopOpacity="1" />
         </linearGradient>
       </defs>
-      {bars.map((bar, b) => (
-        <g key={b}>
-          <rect x={bar.x} y={bar.y} width={bw} height={bar.h} rx={3} fill="rgba(255,255,255,0.06)" />
-          <circle
-            cx={bar.cx}
-            cy={bar.y + 5}
-            r={2.5}
-            fill={color}
-            className="server-led"
-            style={{ animationDelay: `${(b * 0.35).toFixed(2)}s`, filter: `drop-shadow(0 0 4px ${color})` }}
-          />
-        </g>
-      ))}
+      {Array.from({ length: BARS }, (_, b) => {
+        const cx = slot * (b + 0.5);
+        const ty = lineYAt(cx) + 6;
+        return <rect key={b} x={cx - bw / 2} y={ty} width={bw} height={H - ty} rx={2} fill="rgba(255,255,255,0.06)" />;
+      })}
       <polyline
         points={line}
         fill="none"
