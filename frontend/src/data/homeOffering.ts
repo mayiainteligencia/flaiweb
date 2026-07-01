@@ -29,12 +29,12 @@ export type OfferingCard = {
 
 // Tipos de nube (cards negras con gráfica). Orden = rejilla 3×2 leída por filas.
 export const CLOUD_TYPES: OfferingCard[] = [
-  { name: 'FLAI Nube Pública Controlada', desc: 'Para ambientes flexibles, desarrollo, pruebas, aplicaciones digitales y cargas escalables.', to: ROUTES.CONTACT, icon: Cloud, badge: 'Próximamente' },
+  { name: 'FLAI Nube Pública Controlada', desc: 'Para ambientes flexibles, desarrollo, pruebas, aplicaciones digitales y cargas escalables.', to: ROUTES.CONTACT, icon: Cloud },
   { name: 'FLAI Nube Privada', desc: 'Para empresas que requieren control, seguridad, recursos dedicados y operación administrada.', to: ROUTES.PRIVATE_CLOUD, icon: Lock },
-  { name: 'FLAI Sovereign Cloud', desc: 'Para datos sensibles, gobierno, banca, salud, industria y cargas reguladas.', to: ROUTES.TRUST_CENTER, icon: Landmark, badge: 'Nuevo' },
-  { name: 'FLAI Hybrid Cloud', desc: 'Para conectar nube privada, nube pública, on-prem y data centers existentes.', to: ROUTES.CONTACT, icon: Combine },
+  { name: 'FLAI Sovereign Cloud', desc: 'Para datos sensibles, gobierno, banca, salud, industria y cargas reguladas.', to: ROUTES.TRUST_CENTER, icon: Landmark },
+  { name: 'FLAI Hybrid Cloud', desc: 'Para conectar nube privada, nube pública, on-prem y data centers existentes.', to: ROUTES.CONTACT, icon: Combine, badge: 'Próximamente' },
   { name: 'FLAI On-Prem Cloud', desc: 'Para llevar capacidades cloud a tu site, data center o a un entorno dedicado.', to: ROUTES.ON_PREM, icon: ServerCog },
-  { name: 'FLAI AI Cloud', desc: 'Para inteligencia artificial empresarial, GPU, datos, modelos, agentes, robots, cámaras y analítica avanzada.', to: ROUTES.AI_CLOUD, icon: Sparkles },
+  { name: 'FLAI AI Cloud', desc: 'Para inteligencia artificial empresarial, GPU, datos, modelos, agentes, robots, cámaras y analítica avanzada.', to: ROUTES.AI_CLOUD, icon: Sparkles, badge: 'Nuevo' },
 ];
 
 // Servicios cloud (cards blancas normales). Orden = rejilla 3×3 leída por filas.

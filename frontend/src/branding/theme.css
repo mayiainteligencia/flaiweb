@@ -89,19 +89,49 @@
   .img-fade { animation: none; }
 }
 
-/* Gráficas de las cards: la onda se desplaza horizontal (tipo monitor), bucle continuo.
-   La línea mide 2× el ancho con periodos enteros, así translateX(-240) calza sin saltos. */
-.chart-scroll {
-  animation: chart-scroll linear infinite;
+/* Gráfica de las cards: cometa que sube por la línea (siempre ascendente) hasta el botón.
+   offset-path se define inline por card (path distinto por seed). Solo recorre; no baja. */
+.chart-comet {
+  animation: chart-rise linear infinite;
 }
 
-@keyframes chart-scroll {
-  from { transform: translateX(-240px); }
-  to { transform: translateX(0); }
+@keyframes chart-rise {
+  from { offset-distance: 0%; opacity: 0; }
+  10%, 85% { opacity: 1; }
+  to { offset-distance: 100%; opacity: 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .chart-scroll { animation: none; }
+  .chart-comet { animation: none; offset-distance: 100%; opacity: 1; }
+}
+
+/* LED de cada barra (servidor): parpadeo suave desfasado, simula actividad. */
+.server-led {
+  animation: server-led 2.4s ease-in-out infinite;
+}
+
+@keyframes server-led {
+  0%, 100% { opacity: 0.35; }
+  50% { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .server-led { animation: none; opacity: 1; }
+}
+
+/* CTA "Click aquí": destella cuando la cometa llega (misma duración → en fase). */
+.cta-arrive {
+  animation: cta-arrive linear infinite;
+}
+
+@keyframes cta-arrive {
+  0%, 72% { box-shadow: 0 0 0 0 transparent; }
+  86% { box-shadow: 0 0 18px 2px currentColor; }
+  100% { box-shadow: 0 0 0 0 transparent; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cta-arrive { animation: none; }
 }
 
 /* Mascota nube del sidebar: flota suave (solo transform) + glow estático, ligero para GPU */

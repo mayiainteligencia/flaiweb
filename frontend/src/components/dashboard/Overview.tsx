@@ -21,8 +21,8 @@ import { INDUSTRIES } from '@/data/industries';
 import { ROUTES } from '@/constants/routes';
 import { INDUSTRY_ICONS } from './industryIcons';
 import { flagAccent } from '@/components/ui/flagAccent';
-import heroImg from '@/assets/images/hero/usesblack.png';
 import logoFlai from '@/assets/images/logos/logo-FLAI.png';
+import CloudCarousel from './CloudCarousel';
 
 const PROOFS: { icon: LucideIcon; label: string }[] = [
   { icon: MapPin, label: 'Datos en México' },
@@ -66,8 +66,8 @@ export default function Overview() {
   return (
     <div className="mx-auto max-w-6xl space-y-16 pb-8">
       {/* Banda de valor: texto a la izquierda, espacio para imagen a la derecha */}
-      <motion.section {...reveal} className="grid items-start gap-3 pt-2 lg:grid-cols-[1fr_auto]">
-        <div>
+      <motion.section {...reveal} className="grid items-start gap-6 pt-2 lg:grid-cols-[minmax(0,42rem)_auto] lg:justify-start lg:gap-x-24">
+        <div className="max-w-2xl">
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-accent">La Nube Mexicana</p>
           <h1 className="mt-3 text-3xl font-semibold leading-tight text-text-primary sm:text-4xl">
             Soberana, privada, híbrida, on-prem y lista para inteligencia artificial.
@@ -109,13 +109,9 @@ export default function Overview() {
           </ul>
         </div>
 
-        {/* Imagen del Home: formato vertical, bordes redondos, desvanecido llamativo */}
-        <div className="flex justify-center lg:justify-end">
-          <img
-            src={heroImg}
-            alt="FLAI"
-            className="img-fade aspect-[3/4] w-72 rounded-3xl object-cover shadow-lg"
-          />
+        {/* Imagen del Home: carrusel coverflow (mismo tamaño que la imagen original) */}
+        <div className="flex justify-center lg:justify-start">
+          <CloudCarousel />
         </div>
       </motion.section>
 
@@ -150,36 +146,41 @@ export default function Overview() {
 
       {/* Tipos de nube (cards negras con gráfica) */}
       <motion.section {...reveal}>
-        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-accent">FLAI La Nube Mexicana</p>
-        <SectionHead title="Elige el tipo de nube que necesitas" />
-        <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <h2 className="text-3xl font-extrabold uppercase leading-[0.95] tracking-tight text-text-primary sm:text-4xl lg:text-5xl">
+          FLAI <span className="text-accent">La Nube Mexicana</span>
+        </h2>
+        <p className="mt-3 text-lg text-text-secondary sm:text-xl">Elige el tipo de nube que necesitas</p>
+        <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {CLOUD_TYPES.map((t, i) => {
-            const Icon = t.icon;
-            const color = CHART_COLORS[i % 3];
+            // Todas rojas; solo AI Cloud en verde limón.
+            const color = t.name.includes('AI Cloud') ? 'var(--color-green)' : 'var(--color-red)';
             return (
               <NavLink
                 key={t.name}
                 to={t.to}
-                className="group relative flex flex-col justify-between overflow-hidden rounded-xl border border-white/10 bg-[var(--color-black)] p-5 transition-all hover:-translate-y-0.5 hover:border-white/25"
+                className="group relative flex min-h-[15rem] flex-col justify-end overflow-hidden rounded-xl border border-white/10 bg-[var(--color-black)] p-6 transition-all hover:-translate-y-0.5 hover:border-white/25"
               >
-                <div>
-                  <div className="flex items-center justify-between">
-                    <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-white/5" style={{ color }}>
-                      <Icon size={20} />
-                    </span>
-                    <ArrowUpRight size={18} className="text-white/30 transition-colors group-hover:text-white/70" />
-                  </div>
-                  <h3 className="mt-4 flex items-center gap-2 font-semibold text-white">
+                <CardChart color={color} seed={i} />
+                {/* Difuminado inferior: la línea se apaga al pasar bajo el texto */}
+                <div className="pointer-events-none absolute inset-x-0 bottom-0 z-0 h-2/3 bg-gradient-to-t from-[var(--color-black)] via-[var(--color-black)]/85 to-transparent" />
+                {/* CTA en la cima de la línea */}
+                <span
+                  className="cta-arrive absolute right-4 top-4 z-10 inline-flex items-center gap-1 rounded-full border px-3 py-1 text-xs font-semibold uppercase tracking-wide transition-transform group-hover:translate-x-0.5"
+                  style={{ color, borderColor: color, animationDuration: `${4 + (i % 3)}s` }}
+                >
+                  Click aquí <ArrowUpRight size={14} />
+                </span>
+                <div className="relative z-10 max-w-[85%]">
+                  <h3 className="flex flex-wrap items-center gap-2 text-xl font-bold text-white sm:text-2xl">
                     {t.name}
                     {t.badge && (
-                      <span className="rounded bg-accent/20 px-1.5 py-0.5 text-[0.6rem] font-semibold uppercase tracking-wide text-accent">
+                      <span className="rounded bg-accent/20 px-1.5 py-0.5 text-[0.65rem] font-semibold uppercase tracking-wide text-accent">
                         {t.badge}
                       </span>
                     )}
                   </h3>
-                  <p className="mt-1 text-sm text-white/55">{t.desc}</p>
+                  <p className="mt-2 text-base leading-relaxed text-white/75">{t.desc}</p>
                 </div>
-                <CardChart color={color} seed={i} />
               </NavLink>
             );
           })}
@@ -377,37 +378,73 @@ export default function Overview() {
   );
 }
 
-// Mini-gráfica de fondo: barras tenues (fijas) + línea escalonada (ángulos 90°) que se desplaza.
-// S escalones por periodo W, repetidos sobre 2×W → translateX(-W) es bucle sin saltos.
+// Gráfica de fondo: línea SIEMPRE ascendente (nunca baja) de abajo-izq a arriba-der,
+// donde está el CTA. Una cometa recorre la línea en bucle hasta el botón (offset-path).
 function CardChart({ color, seed }: { color: string; seed: number }) {
-  const W = 240;
-  const H = 84;
-  const N = 11;
-  const S = 6; // escalones por periodo
-  const step = W / S;
-  const levels = Array.from({ length: S }, (_, i) => H * (0.22 + ((seed * 31 + i * 53) % 7) / 10));
-  const pts: string[] = [];
-  for (let k = 0; k <= 2 * S; k++) {
-    const y = levels[k % S]; // niveles periódicos con S → bucle perfecto
-    pts.push(`${(k * step).toFixed(1)},${y.toFixed(1)}`); // un punto por vértice → zigzag triangular
+  const W = 300;
+  const H = 200;
+  const N = 7;
+  const y0 = H * 0.92; // inicio abajo
+  const y1 = H * 0.08; // fin arriba (junto al CTA)
+  const pts: [number, number][] = [];
+  let prev = y0;
+  for (let k = 0; k <= N; k++) {
+    const base = y0 + (y1 - y0) * (k / N); // rampa lineal ascendente
+    const jitter = (((seed * 17 + k * 29) % 11) / 11) * (H * 0.06);
+    const y = Math.min(prev, base - jitter); // min → nunca sube de nivel: jamás baja visualmente
+    prev = y;
+    pts.push([(k / N) * W, y]);
   }
-  const line = pts.join(' ');
-  const bars = Array.from({ length: N }, (_, b) => 20 + ((seed * 7 + b * 17) % 50));
+  const line = pts.map(([x, y]) => `${x.toFixed(1)},${y.toFixed(1)}`).join(' ');
+  const d = 'M ' + pts.map(([x, y]) => `${x.toFixed(1)} ${y.toFixed(1)}`).join(' L ');
+  const gid = `card-grad-${seed}`;
+  // Barras de fondo ascendentes (racks de servidores): cada una con un punto encendido arriba.
+  const BARS = 8;
+  const slot = W / BARS;
+  const bw = slot * 0.5;
+  const bars = Array.from({ length: BARS }, (_, b) => {
+    const h = H * (0.16 + 0.72 * (b / (BARS - 1)));
+    const cx = slot * (b + 0.5);
+    return { x: cx - bw / 2, y: H - h, h, cx };
+  });
   return (
-    <svg viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" className="mt-5 h-20 w-full overflow-hidden" aria-hidden>
-      {bars.map((h, b) => (
-        <rect key={b} x={(b + 0.5) * (W / N) - 7} y={H - h} width={14} height={h} rx={3} fill="rgba(255,255,255,0.06)" />
+    <svg viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" className="absolute inset-0 z-0 h-full w-full" aria-hidden>
+      <defs>
+        <linearGradient id={gid} x1="0" y1="1" x2="1" y2="0">
+          <stop offset="0%" stopColor={color} stopOpacity="0" />
+          <stop offset="55%" stopColor={color} stopOpacity="0.5" />
+          <stop offset="100%" stopColor={color} stopOpacity="1" />
+        </linearGradient>
+      </defs>
+      {bars.map((bar, b) => (
+        <g key={b}>
+          <rect x={bar.x} y={bar.y} width={bw} height={bar.h} rx={3} fill="rgba(255,255,255,0.06)" />
+          <circle
+            cx={bar.cx}
+            cy={bar.y + 5}
+            r={2.5}
+            fill={color}
+            className="server-led"
+            style={{ animationDelay: `${(b * 0.35).toFixed(2)}s`, filter: `drop-shadow(0 0 4px ${color})` }}
+          />
+        </g>
       ))}
-      <g className="chart-scroll" style={{ animationDuration: `${14 + (seed % 4) * 3}s` }}>
-        <polyline
-          points={line}
-          fill="none"
-          strokeWidth={2.5}
-          strokeLinecap="square"
-          strokeLinejoin="miter"
-          style={{ stroke: color, filter: `drop-shadow(0 0 6px ${color})` }}
-        />
-      </g>
+      <polyline
+        points={line}
+        fill="none"
+        stroke={`url(#${gid})`}
+        strokeWidth={2.5}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        vectorEffect="non-scaling-stroke"
+        style={{ filter: `drop-shadow(0 0 6px ${color})` }}
+      />
+      <circle
+        r={3.5}
+        fill={color}
+        className="chart-comet"
+        style={{ offsetPath: `path('${d}')`, animationDuration: `${4 + (seed % 3)}s`, filter: `drop-shadow(0 0 5px ${color})` }}
+      />
     </svg>
   );
 }
