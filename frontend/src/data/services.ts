@@ -11,7 +11,8 @@ export type ServiceIcon =
   | 'network'
   | 'security'
   | 'backup'
-  | 'ai';
+  | 'ai'
+  | 'surveillance';
 
 export type ServiceSlug =
   | 'compute'
@@ -23,7 +24,8 @@ export type ServiceSlug =
   | 'networking'
   | 'security'
   | 'backup-drp'
-  | 'ai-cloud';
+  | 'ai-cloud'
+  | 'videovigilancia';
 
 export type Service = {
   slug: ServiceSlug;
@@ -46,6 +48,7 @@ export const SERVICES: Service[] = [
   { slug: 'security', name: 'Security & Trust', tagline: 'Seguridad integrada desde la arquitectura, no al final.', to: ROUTES.SECURITY, icon: 'security' },
   { slug: 'backup-drp', name: 'Backup & DRP', tagline: 'Recuperación y continuidad dentro de México.', to: ROUTES.BACKUP_DRP, icon: 'backup' },
   { slug: 'ai-cloud', name: 'AI Cloud', tagline: 'Inteligencia artificial empresarial sobre nube mexicana.', to: ROUTES.AI_CLOUD, icon: 'ai', badge: 'Nuevo' },
+  { slug: 'videovigilancia', name: 'Videovigilancia', tagline: 'Extiende el almacenamiento de tu videovigilancia a la nube soberana.', to: ROUTES.VIDEOVIGILANCIA, icon: 'surveillance' },
 ];
 
 export const SERVICE_BY_SLUG: Record<ServiceSlug, Service> = Object.fromEntries(

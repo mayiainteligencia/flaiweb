@@ -107,4 +107,37 @@ export const SERVICE_DETAILS: Record<ServiceSlug, ServiceDetail> = {
     security: ['Aislamiento de datos y modelos', 'Gobierno de accesos', 'Trazabilidad de prompts y datos', 'Cumplimiento por industria'],
     pricingNote: 'Por GPU, almacenamiento de datos y servicios gestionados.',
   },
+  videovigilancia: {
+    problem:
+      'Amplía bajo demanda la capacidad de tu videovigilancia local: más cámaras, mayor resolución y retención más larga sin comprar hardware ni reemplazar tu sistema de gestión de video (VMS). Extiende tu almacenamiento a la nube soberana sin cambiar tu operación.',
+    includes: [
+      'Almacenamiento en la nube de acceso rápido',
+      'Puente en la nube integrado con tu VMS',
+      'Instalador universal (se instala en minutos, corre en segundo plano)',
+      'Modelo híbrido: copia local + copia en la nube',
+      'Inmutabilidad de buckets y air gapping virtual',
+      'Escalabilidad ilimitada sobre tu infraestructura existente',
+    ],
+    useCases: [
+      'Ampliar retención por cumplimiento legal',
+      'Preservar la capacidad de almacenamiento on-prem',
+      'Cadena de custodia de evidencia para investigaciones',
+      'Ciudades y seguridad pública',
+      'Retail, manufactura y educación multisede',
+      'Repatriación de video desde nube pública',
+    ],
+    benefits: [
+      'Sin cambiar tu VMS ni tu operación diaria',
+      'Precio bajo y predecible, sin cargos ocultos',
+      'Reproducción sin interrupciones desde tu VMS',
+      'Libera almacenamiento local y a tu equipo',
+    ],
+    security: [
+      'Almacenamiento híbrido local + nube ante desastres',
+      'Inmutabilidad de buckets (protección ante ransomware)',
+      'Air gapping virtual',
+      'Cadena de custodia para cualquier investigación',
+    ],
+    pricingNote: 'Por capacidad almacenada y periodo de retención; precio predecible sin cargos ocultos.',
+  },
 };

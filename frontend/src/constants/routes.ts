@@ -13,6 +13,7 @@ export const ROUTES = {
   SECURITY: '/services/security',
   BACKUP_DRP: '/services/backup-drp',
   AI_CLOUD: '/services/ai-cloud',
+  VIDEOVIGILANCIA: '/services/videovigilancia',
 
   // Industrias
   GOBIERNO: '/industries/gobierno',

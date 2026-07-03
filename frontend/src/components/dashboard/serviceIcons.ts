@@ -9,6 +9,7 @@ import {
   ShieldCheck,
   LifeBuoy,
   Sparkles,
+  Cctv,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import type { ServiceIcon } from '@/data/services';
@@ -24,4 +25,5 @@ export const SERVICE_ICONS: Record<ServiceIcon, LucideIcon> = {
   security: ShieldCheck,
   backup: LifeBuoy,
   ai: Sparkles,
+  surveillance: Cctv,
 };

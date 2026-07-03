@@ -13,6 +13,7 @@ import {
   HardDrive,
   LifeBuoy,
   Activity,
+  Cctv,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { ROUTES } from '@/constants/routes';
@@ -48,4 +49,5 @@ export const CLOUD_SERVICES: OfferingCard[] = [
   { name: 'FLAI Network', desc: 'Red privada, segura y de baja latencia para conectar aplicaciones, sedes, centros de datos, nubes públicas y ambientes on-prem.', to: ROUTES.NETWORKING, icon: Network },
   { name: 'FLAI Security & Compliance', desc: 'Seguridad integrada desde el diseño para proteger datos, identidades, aplicaciones, redes y cargas críticas.', to: ROUTES.SECURITY, icon: ShieldCheck },
   { name: 'FLAI NOC & SOC', desc: 'Monitoreo y respuesta 24/7: operación de red y seguridad para proteger datos, identidades, aplicaciones, redes y cargas críticas.', to: ROUTES.SECURITY, icon: Activity },
+  { name: 'FLAI Videovigilancia', desc: 'Extiende el almacenamiento de tu videovigilancia local a la nube soberana sin cambiar tu VMS: más cámaras, mayor resolución y retención más larga sin comprar más hardware.', to: ROUTES.VIDEOVIGILANCIA, icon: Cctv },
 ];

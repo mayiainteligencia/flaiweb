@@ -13,6 +13,7 @@ import Networking from '@/pages/services/Networking';
 import Security from '@/pages/services/Security';
 import BackupDRP from '@/pages/services/BackupDRP';
 import AICloud from '@/pages/services/AICloud';
+import Videovigilancia from '@/pages/services/Videovigilancia';
 import Industries from '@/pages/Industries';
 import Marketplace from '@/pages/Marketplace';
 import TrustCenter from '@/pages/TrustCenter';
@@ -52,6 +53,7 @@ export default function App() {
         <Route path={ROUTES.SECURITY} element={<Security />} />
         <Route path={ROUTES.BACKUP_DRP} element={<BackupDRP />} />
         <Route path={ROUTES.AI_CLOUD} element={<AICloud />} />
+        <Route path={ROUTES.VIDEOVIGILANCIA} element={<Videovigilancia />} />
 
         {/* Industrias: catálogo único; cada ruta por sector renderiza el mismo catálogo por ahora */}
         <Route path="/industries" element={<Industries />} />
