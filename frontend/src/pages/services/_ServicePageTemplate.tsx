@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import { NavLink } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Check, ArrowRight, ArrowLeft, Layers, Briefcase, ShieldCheck, Tag } from 'lucide-react';
@@ -15,7 +16,7 @@ const reveal = {
   transition: { duration: 0.5, ease: 'easeOut' },
 } as const;
 
-export default function ServicePage({ slug }: { slug: ServiceSlug }) {
+export default function ServicePage({ slug, children }: { slug: ServiceSlug; children?: ReactNode }) {
   const service = SERVICE_BY_SLUG[slug];
   const detail = SERVICE_DETAILS[slug];
   const Icon = SERVICE_ICONS[service.icon];
@@ -100,6 +101,9 @@ export default function ServicePage({ slug }: { slug: ServiceSlug }) {
           </NavLink>
         </div>
       </motion.section>
+
+      {/* Contenido extra específico del servicio (p. ej. calculadora) */}
+      {children && <motion.section {...reveal}>{children}</motion.section>}
 
       {/* CTA final */}
       <motion.section {...reveal}>
