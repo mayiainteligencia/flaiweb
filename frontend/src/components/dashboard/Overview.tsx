@@ -82,6 +82,9 @@ export default function Overview() {
             Opera, protege y escala tus datos, aplicaciones e IA dentro de México, con control,
             continuidad y soporte experto en español.
           </p>
+          <p className="mt-3 text-base text-text-secondary">
+            MAYIA, la fábrica de inteligencia artificial de México, corre exclusivamente sobre FLAI.
+          </p>
 
           <div className="mt-6 flex flex-wrap items-center gap-3">
             <NavLink

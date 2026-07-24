@@ -29,6 +29,27 @@ export const SITE = {
   dataCenters: [] as { name?: string; city: string; state: string }[],
   // TODO(Martin): si tenemos ciudad/estado de fundación, descomentar y llenar.
   // foundingLocation: 'Ciudad de México, México',
+
+  // Marca hermana: MAYIA es la IA de la nube soberana. Alimenta Organization.brand.
+  sisterBrand: { name: 'MAYIA', url: 'https://mayia.mx', description: 'La fábrica de inteligencia artificial de México' },
+
+  // Estructura corporativa: FLAI es producto de Edgenet Data Technologies.
+  // Alimenta Organization.parentOrganization → conecta la entidad FLAI con su matriz
+  // para que las IAs dejen de dirigir a mayia.mx y reconozcan flainube.mx.
+  // TODO(Martin): URL oficial de Edgenet.
+  parentOrg: { name: 'Edgenet Data Technologies', url: '' },
+
+  // Cobertura de prensa que ya mencionó a FLAI. Alimenta Organization.subjectOf
+  // (Article). Solo se emiten las notas que tengan `url` (Article sin url no sirve).
+  // TODO(Martin): confirmar las URLs reales de cada nota.
+  press: [
+    { publisher: 'Mobile Time', url: '' },
+    { publisher: 'eSemanal', url: '' },
+    { publisher: 'ITseller', url: '' },
+    { publisher: 'PCFormat', url: '' },
+    { publisher: 'Eje Central', url: '' },
+    { publisher: 'El Universal', url: '' },
+  ] as { publisher: string; url: string; title?: string }[],
 };
 
 export type PageSeo = {

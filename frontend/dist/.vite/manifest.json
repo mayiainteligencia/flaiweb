@@ -1,6 +1,6 @@
 {
-  "_client-Dv9xFfoY.js": {
-    "file": "assets/client-Dv9xFfoY.js",
+  "_client-ZqRtOyLC.js": {
+    "file": "assets/client-ZqRtOyLC.js",
     "name": "client",
     "isDynamicEntry": true,
     "imports": [
@@ -8,15 +8,15 @@
     ]
   },
   "index.html": {
-    "file": "assets/app-DL7Gf7zV.js",
+    "file": "assets/app-DDlU-mBk.js",
     "name": "app",
     "src": "index.html",
     "isEntry": true,
     "dynamicImports": [
-      "_client-Dv9xFfoY.js"
+      "_client-ZqRtOyLC.js"
     ],
     "css": [
-      "assets/app-BMigXgCW.css"
+      "assets/app-BZX0FxoZ.css"
     ],
     "assets": [
       "assets/logo-FLAI-D4AvsBDs.png",

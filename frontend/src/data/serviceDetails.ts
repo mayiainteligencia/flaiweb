@@ -31,7 +31,7 @@ export const SERVICE_DETAILS: Record<ServiceSlug, ServiceDetail> = {
   },
   'on-prem': {
     problem:
-      'Lleva una plataforma cloud completa a tus instalaciones o a un sitio EdgeNet dedicado, para datos y cargas que no pueden salir de tu control.',
+      'Lleva una plataforma cloud completa a tus instalaciones o a un centro de datos FLAI dedicado, para datos y cargas que no pueden salir de tu control.',
     includes: [
       'FLAI Core: cómputo, storage, red y virtualización',
       'FLAI Landing Zone: proyectos, IAM, cuotas y políticas',
@@ -100,7 +100,7 @@ export const SERVICE_DETAILS: Record<ServiceSlug, ServiceDetail> = {
   },
   'ai-cloud': {
     problem:
-      'Entrena, despliega y opera IA con tus datos protegidos: GPU, data lakehouse y MLOps, más agentes MAYIA listos para el negocio.',
+      'Entrena, despliega y opera IA con tus datos protegidos: GPU, data lakehouse y MLOps, más agentes MAYIA listos para el negocio. MAYIA, la fábrica de inteligencia artificial de México, opera sobre FLAI: entrenada, desplegada y protegida en nube soberana.',
     includes: ['GPU on-demand y notebooks', 'Data lakehouse', 'MLOps y LLMOps', 'RAG y vector databases', 'Agentes MAYIA por industria'],
     useCases: ['IA con datos sensibles', 'Asistentes y agentes de negocio', 'Analítica avanzada', 'Modelos propios y RAG'],
     benefits: ['Datos y modelos en México', 'IA sobre nube soberana', 'Del piloto a producción (MLOps)', 'Agentes listos por industria'],

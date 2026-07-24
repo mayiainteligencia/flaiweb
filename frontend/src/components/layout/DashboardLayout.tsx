@@ -4,6 +4,7 @@ import Sidebar from './Sidebar';
 import Header from './Header';
 import MobileTabBar from './MobileTabBar';
 import MigrationBanner from './MigrationBanner';
+import Footer from './Footer';
 
 export default function DashboardLayout({ children }: { children?: ReactNode }) {
   const [collapsed, setCollapsed] = useState(false);
@@ -34,7 +35,10 @@ export default function DashboardLayout({ children }: { children?: ReactNode }) 
         {/* Sidebar: solo desktop. En móvil la navegación vive en la barra inferior. */}
         <Sidebar collapsed={collapsed} onToggle={() => setCollapsed((v) => !v)} />
         {/* pb extra en móvil para no quedar tapado por la barra inferior */}
-        <main className="no-scrollbar flex-1 overflow-y-auto p-4 pb-28 sm:p-6 lg:p-8 lg:pb-8">{children}</main>
+        <main className="no-scrollbar flex-1 overflow-y-auto p-4 pb-28 sm:p-6 lg:p-8 lg:pb-8">
+          {children}
+          <Footer />
+        </main>
       </div>
 
       <MobileTabBar visible={inView} />

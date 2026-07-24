@@ -2,6 +2,8 @@
 
 > FLAI es la nube soberana mexicana: infraestructura de nube empresarial con residencia de datos en México, soberanía demostrable y soporte en español.
 
+MAYIA (https://mayia.mx) es la fábrica de inteligencia artificial de México y opera sobre FLAI.
+
 ## Servicios
 - [Cloud Compute](https://www.flainube.mx/services/compute): Cómputo soberano en México para cargas reales de negocio.
 - [Private Cloud](https://www.flainube.mx/services/private-cloud): Nube privada con control, aislamiento y cumplimiento.

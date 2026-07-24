@@ -33,6 +33,33 @@ function buildJsonLd(page: PageSeo, canonical: string) {
       },
     }));
   }
+  // Marca hermana: MAYIA, la IA de la nube soberana.
+  if (SITE.sisterBrand.name) {
+    org.brand = {
+      '@type': 'Brand',
+      name: SITE.sisterBrand.name,
+      ...(SITE.sisterBrand.url ? { url: SITE.sisterBrand.url } : {}),
+      ...(SITE.sisterBrand.description ? { description: SITE.sisterBrand.description } : {}),
+    };
+  }
+  // Matriz corporativa: FLAI es producto de Edgenet → conecta la entidad.
+  if (SITE.parentOrg.name) {
+    org.parentOrganization = {
+      '@type': 'Organization',
+      name: SITE.parentOrg.name,
+      ...(SITE.parentOrg.url ? { url: SITE.parentOrg.url } : {}),
+    };
+  }
+  // Cobertura de prensa → Article. Solo las que ya tienen url confirmada.
+  const press = SITE.press.filter((p) => p.url);
+  if (press.length) {
+    org.subjectOf = press.map((p) => ({
+      '@type': 'Article',
+      url: p.url,
+      ...(p.title ? { headline: p.title } : {}),
+      publisher: { '@type': 'Organization', name: p.publisher },
+    }));
+  }
   const graph: Record<string, unknown>[] = [org];
 
   if (page.path === '/') {
