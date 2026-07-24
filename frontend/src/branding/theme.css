@@ -53,6 +53,12 @@
   50% { filter: drop-shadow(0 0 14px rgba(255, 26, 26, 0.85)); }
 }
 
+/* Anillo de MAYIA al escuchar */
+@keyframes pulse {
+  0%, 100% { opacity: 0.35; transform: scale(1); }
+  50% { opacity: 0.85; transform: scale(1.04); }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .logo-glow { animation: none; }
 }

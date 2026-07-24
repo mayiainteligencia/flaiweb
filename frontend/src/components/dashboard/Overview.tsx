@@ -22,6 +22,8 @@ import { ROUTES } from '@/constants/routes';
 import { INDUSTRY_ICONS } from './industryIcons';
 import { flagAccent } from '@/components/ui/flagAccent';
 import logoFlai from '@/assets/images/logos/logo-FLAI.png';
+import BrainCanvas from '@/components/ui/BrainCanvas';
+import { useJarvis } from '@/components/ai/Jarvis';
 import CloudCarousel from './CloudCarousel';
 
 const PROOFS: { icon: LucideIcon; label: string }[] = [
@@ -63,6 +65,7 @@ const reveal = {
 } as const;
 
 export default function Overview() {
+  const { open: openJarvis } = useJarvis();
   return (
     <div className="mx-auto max-w-6xl space-y-16 pb-8">
       {/* Banda de valor: texto a la izquierda, espacio para imagen a la derecha */}
@@ -96,6 +99,15 @@ export default function Overview() {
             >
               Conoce <img src={logoFlai} alt="FLAI" className="h-4 w-auto" />
             </NavLink>
+            {/* Núcleo IA: abre a MAYIA (asistente de voz) */}
+            <button
+              onClick={openJarvis}
+              title="Habla con MAYIA"
+              aria-label="Abrir asistente de voz MAYIA"
+              className="h-11 w-11 shrink-0 rounded-full transition-transform hover:scale-110"
+            >
+              <BrainCanvas height={44} compact />
+            </button>
           </div>
 
           <ul className="mt-7 flex flex-wrap gap-x-5 gap-y-2">

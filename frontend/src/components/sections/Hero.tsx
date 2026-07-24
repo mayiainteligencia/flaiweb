@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { MeshGradient } from '@paper-design/shaders-react';
 import logoFlai from '@/assets/images/logos/logo-FLAI.png';
 import logoMayia from '@/assets/images/logos/mayiaLogoBlanco.png';
-import hechoEnMexico from '@/assets/images/logos/hechoEnMexicoRed.png';
+import hechoEnMexico from '@/assets/images/logos/hechoEnMexico.svg';
 import nubeFlai from '@/assets/images/logos/nubeFlaiP.png';
 import './Hero.css';
 

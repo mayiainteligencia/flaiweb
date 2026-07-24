@@ -5,6 +5,8 @@ import type { LucideIcon } from 'lucide-react';
 import { ROUTES } from '@/constants/routes';
 import { CONTACT } from '@/data/contact';
 import logoFlai from '@/assets/images/logos/logo-FLAI.png';
+import BrainCanvas from '@/components/ui/BrainCanvas';
+import { useJarvis } from '@/components/ai/Jarvis';
 import SearchBox from './SearchBox';
 
 // Fecha de hoy, formato corto "18 jun 2026".
@@ -52,6 +54,7 @@ function Action({
 
 export default function Header({ collapsed, onToggle }: { collapsed: boolean; onToggle: () => void }) {
   const [searchOpen, setSearchOpen] = useState(false);
+  const { open: openJarvis } = useJarvis();
 
   return (
     <header className="relative flex h-16 shrink-0 items-center gap-3 border-b border-border-subtle bg-header-bg px-4">
@@ -88,6 +91,22 @@ export default function Header({ collapsed, onToggle }: { collapsed: boolean; on
 
       {/* Acciones rápidas (labels solo en desktop) */}
       <nav className="flex shrink-0 items-center gap-2">
+        {/* MAYIA: asistente de voz — siempre visible e invitante */}
+        <button
+          onClick={openJarvis}
+          title="Habla con MAYIA, tu asistente de FLAI"
+          aria-label="Abrir asistente de voz MAYIA"
+          className="group relative inline-flex h-9 items-center gap-1.5 rounded-full border border-accent/40 bg-accent/5 pl-0.5 pr-1 text-sm font-semibold text-accent transition-colors hover:bg-accent/10 xl:pr-3"
+        >
+          <span className="relative block h-8 w-8 shrink-0">
+            <span
+              className="absolute inset-0 rounded-full border border-accent"
+              style={{ opacity: 0.5, animation: 'pulse 1.8s ease-in-out infinite' }}
+            />
+            <BrainCanvas height={32} compact active />
+          </span>
+          <span className="hidden xl:inline">Pregúntale a MAYIA</span>
+        </button>
         <Action href={CONTACT.sales} icon={BadgeDollarSign} label="Ventas" external />
         <Action href={CONTACT.support} icon={Headphones} label="Soporte" />
         <Action to={ROUTES.AI_CLOUD} icon={Cpu} label="Prueba GPU" />

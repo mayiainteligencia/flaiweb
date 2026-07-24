@@ -1,8 +1,10 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Search, Sparkles, Bot, CornerDownLeft, ArrowRight } from 'lucide-react';
+import { Search, Bot, CornerDownLeft, ArrowRight } from 'lucide-react';
 import { searchSite } from '@/data/searchIndex';
 import { ROUTES } from '@/constants/routes';
+import BrainCanvas from '@/components/ui/BrainCanvas';
+import { useJarvis } from '@/components/ai/Jarvis';
 
 type Mode = 'search' | 'ia';
 
@@ -28,6 +30,7 @@ export default function SearchBox({
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState(0);
   const navigate = useNavigate();
+  const { open: openJarvis } = useJarvis();
   const rootRef = useRef<HTMLDivElement>(null);
 
   const results = useMemo(() => searchSite(query), [query]);
@@ -86,7 +89,15 @@ export default function SearchBox({
   return (
     <div ref={rootRef} className="relative w-full">
       {isIa ? (
-        <Sparkles size={17} className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-accent" />
+        <button
+          type="button"
+          onClick={openJarvis}
+          title="Habla con MAYIA"
+          aria-label="Abrir asistente de voz MAYIA"
+          className="absolute left-2.5 top-1/2 h-6 w-6 -translate-y-1/2"
+        >
+          <BrainCanvas height={24} compact active />
+        </button>
       ) : (
         <Search size={17} className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--color-silver)]" />
       )}
@@ -152,7 +163,15 @@ export default function SearchBox({
       {showIaPanel && (
         <div className="absolute left-0 right-0 top-12 z-50 overflow-hidden rounded-lg border border-accent/30 bg-white shadow-xl">
           <div className="flex items-center gap-2 border-b border-border-subtle px-4 py-3">
-            <Sparkles size={16} className="text-accent" />
+            <button
+              type="button"
+              onClick={openJarvis}
+              title="Habla con MAYIA"
+              aria-label="Abrir asistente de voz MAYIA"
+              className="h-8 w-8 shrink-0 rounded-full transition-transform hover:scale-110"
+            >
+              <BrainCanvas height={32} compact active />
+            </button>
             <span className="text-sm font-semibold text-text-primary">Asistente FLAi</span>
           </div>
           <p className="px-4 pt-3 text-xs text-text-secondary">

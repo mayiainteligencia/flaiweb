@@ -1,5 +1,6 @@
 import { Routes, Route, Outlet } from 'react-router-dom';
 import { ROUTES } from '@/constants/routes';
+import { JarvisProvider } from '@/components/ai/Jarvis';
 import Home from '@/pages/Home';
 import DashboardLayout from '@/components/layout/DashboardLayout';
 import SectionPlaceholder from '@/pages/SectionPlaceholder';
@@ -25,6 +26,7 @@ import Advisor from '@/pages/Advisor';
 
 export default function App() {
   return (
+    <JarvisProvider>
     <Routes>
       {/* Inicio: Hero (nube) + dashboard con overview */}
       <Route path={ROUTES.HOME} element={<Home />} />
@@ -74,5 +76,6 @@ export default function App() {
         <Route path="*" element={<SectionPlaceholder />} />
       </Route>
     </Routes>
+    </JarvisProvider>
   );
 }
