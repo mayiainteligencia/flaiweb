@@ -1,0 +1,303 @@
+/* ================================================================
+   MigrationBanner – Promo Bar + Countdown + Ticker
+   FLAI brand: --color-red, --color-green, --color-black, etc.
+   ================================================================ */
+
+/* ─── Root ─── */
+.mig-root {
+  font-family: var(--font-body);
+}
+
+/* ─── Main row ─── */
+.mig-main {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 8px 14px;
+  background: linear-gradient(
+    92deg,
+    #1a0404 0%,
+    var(--color-red) 30%,
+    #c41919 60%,
+    #8b1515 85%,
+    #1a0404 100%
+  );
+  overflow: hidden;
+}
+
+/* Shimmer sweep across the main bar */
+.mig-shimmer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    105deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.06) 40%,
+    rgba(255, 255, 255, 0.12) 50%,
+    rgba(255, 255, 255, 0.06) 60%,
+    transparent 100%
+  );
+  background-size: 250% 100%;
+  animation: mig-sweep 5s ease-in-out infinite;
+}
+
+/* ─── Copy ─── */
+.mig-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  min-width: 0;
+}
+
+.mig-headline {
+  font-family: var(--font-heading);
+  font-weight: 900;
+  font-size: 0.82rem;
+  letter-spacing: 0.06em;
+  color: #fff;
+  white-space: nowrap;
+}
+
+.mig-sub {
+  font-size: 0.6rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.75);
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+/* ─── Vertical separator ─── */
+.mig-sep {
+  width: 1px;
+  height: 28px;
+  background: rgba(255, 255, 255, 0.2);
+  flex-shrink: 0;
+}
+
+/* ─── Countdown ─── */
+.mig-countdown {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.mig-unit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+
+.mig-digits {
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 1.1rem;
+  line-height: 1;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 6px;
+  padding: 4px 6px;
+  min-width: 32px;
+  text-align: center;
+  letter-spacing: 0.05em;
+  font-variant-numeric: tabular-nums;
+}
+
+.mig-label {
+  font-size: 0.5rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.55);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-top: 1px;
+}
+
+.mig-colon {
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.5);
+  line-height: 1;
+  padding-bottom: 10px; /* alinea con los dígitos, no el label */
+}
+
+/* ─── CTA Button ─── */
+.mig-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  padding: 7px 20px;
+  background: #fff;
+  color: var(--color-red);
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-radius: 4px;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.mig-cta:hover {
+  background: var(--color-green);
+  color: var(--color-black);
+  box-shadow: 0 0 16px rgba(183, 255, 0, 0.4);
+  transform: translateY(-1px);
+}
+
+.mig-cta:active {
+  transform: scale(0.97);
+}
+
+/* ─── Close button ─── */
+.mig-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.mig-close:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+}
+
+/* ─── Ticker strip ─── */
+.mig-ticker {
+  overflow: hidden;
+  background: var(--color-black);
+  border-top: 1px solid rgba(255, 42, 42, 0.15);
+  padding: 5px 0;
+}
+
+.mig-ticker-track {
+  display: flex;
+  width: max-content;
+  gap: 0;
+  animation: mig-scroll 35s linear infinite;
+}
+
+.mig-ticker-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 24px;
+  white-space: nowrap;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.7);
+  text-transform: uppercase;
+}
+
+.mig-ticker-dot {
+  display: inline-block;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--color-red);
+  box-shadow: 0 0 6px rgba(255, 42, 42, 0.5);
+  flex-shrink: 0;
+}
+
+/* ─── Keyframes ─── */
+@keyframes mig-sweep {
+  0%   { background-position: 250% 0; }
+  100% { background-position: -250% 0; }
+}
+
+@keyframes mig-scroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* ─── Responsive: mobile tweaks ─── */
+@media (max-width: 639px) {
+  .mig-main {
+    gap: 8px;
+    padding: 6px 10px;
+    flex-wrap: nowrap;
+  }
+
+  .mig-headline {
+    font-size: 0.68rem;
+    letter-spacing: 0.04em;
+  }
+
+  .mig-digits {
+    font-size: 0.85rem;
+    padding: 3px 4px;
+    min-width: 24px;
+    border-radius: 4px;
+  }
+
+  .mig-label {
+    font-size: 0.42rem;
+  }
+
+  .mig-colon {
+    font-size: 0.85rem;
+    padding-bottom: 8px;
+  }
+
+  .mig-cta {
+    padding: 5px 12px;
+    font-size: 0.58rem;
+    border-radius: 3px;
+  }
+
+  .mig-ticker-item {
+    font-size: 0.55rem;
+    padding: 0 16px;
+    gap: 6px;
+  }
+
+  .mig-ticker-dot {
+    width: 3px;
+    height: 3px;
+  }
+}
+
+/* Desktop: larger, more spacious */
+@media (min-width: 640px) {
+  .mig-main {
+    gap: 20px;
+    padding: 10px 24px;
+  }
+
+  .mig-headline {
+    font-size: 0.95rem;
+    letter-spacing: 0.07em;
+  }
+
+  .mig-digits {
+    font-size: 1.25rem;
+    padding: 5px 8px;
+    min-width: 36px;
+  }
+}
+
+/* ─── Accessibility ─── */
+@media (prefers-reduced-motion: reduce) {
+  .mig-shimmer,
+  .mig-ticker-track {
+    animation: none !important;
+  }
+}

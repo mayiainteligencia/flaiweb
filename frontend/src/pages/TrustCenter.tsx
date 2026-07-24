@@ -7,7 +7,7 @@ import {
   Activity,
   KeyRound,
   Scale,
-  AlertTriangle,
+  ShieldCheck,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { ROUTES } from '@/constants/routes';
@@ -53,8 +53,8 @@ export default function TrustCenter() {
     <div className="mx-auto max-w-5xl space-y-10 pb-8">
       <PageHeader
         eyebrow="Trust Center"
-        title="Confianza demostrable, no solo declarada"
-        subtitle="La soberanía no se afirma por residencia de datos: se demuestra con controles técnicos, legales, operativos, contractuales y organizacionales."
+        title="Soberanía demostrable, no solo declarada"
+        subtitle="Nube soberana mexicana: respaldada con controles técnicos, legales, operativos, contractuales y organizacionales, además de residencia de datos en México."
       />
 
       <motion.section {...reveal} className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -74,11 +74,11 @@ export default function TrustCenter() {
       </motion.section>
 
       <motion.section {...reveal} className="flex items-start gap-3 rounded-xl border border-accent/30 bg-accent/5 p-5">
-        <AlertTriangle size={20} className="mt-0.5 shrink-0 text-accent" />
+        <ShieldCheck size={20} className="mt-0.5 shrink-0 text-accent" />
         <p className="text-sm text-text-secondary">
-          <span className="font-semibold text-text-primary">Regla crítica.</span> No afirmamos
-          “soberanía total” únicamente por residencia de datos. Cada claim se respalda con controles
-          verificables antes de publicarse.
+          <span className="font-semibold text-text-primary">Soberanía respaldada.</span> Afirmamos
+          nuestra soberanía porque la demostramos: cada control —cifrado, llaves, residencia en
+          México, auditoría y reversibilidad— es verificable antes de publicarse.
         </p>
       </motion.section>
 
