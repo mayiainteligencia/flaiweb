@@ -81,8 +81,8 @@ export default function Contact() {
         </motion.section>
 
         <motion.aside {...reveal} className="space-y-4">
-          <InfoCard icon={Mail} title="Correo" value="contacto@flai.mx" />
-          <InfoCard icon={Phone} title="Teléfono" value="+52 55 0000 0000" />
+          <InfoCard icon={Mail} title="Correo" value="Admin@mayia.com" />
+          <InfoCard icon={Phone} title="Teléfono" value="55 5331 5526" />
           <InfoCard icon={MapPin} title="Datos en México" value="Infraestructura y soporte nacional" />
         </motion.aside>
       </div>

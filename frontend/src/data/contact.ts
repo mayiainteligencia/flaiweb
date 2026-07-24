@@ -1,9 +1,9 @@
-// Datos de contacto (placeholders — reemplazar por los reales).
+// Datos de contacto reales.
 export const CONTACT = {
-  whatsapp: 'https://wa.me/525500000000',
-  email: 'mailto:contacto@flai.mx',
-  phone: 'tel:+525500000000',
-  sales: 'https://wa.me/525500000000', // Ventas
-  support: 'mailto:soporte@flai.mx', // Soporte
-  ceo: 'mailto:ceo@flai.mx', // Hablar con el CEO
+  whatsapp: 'https://wa.me/525553315526',
+  email: 'mailto:Admin@mayia.com',
+  phone: 'tel:+525553315526',
+  sales: 'mailto:Admin@mayia.com', // Ventas
+  support: 'mailto:Admin@mayia.com', // Soporte
+  ceo: 'tel:+525553315526', // Hablar con el CEO
 };

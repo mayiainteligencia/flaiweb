@@ -109,7 +109,7 @@ export default function Header({ collapsed, onToggle }: { collapsed: boolean; on
         </button>
         <Action href={CONTACT.sales} icon={BadgeDollarSign} label="Ventas" external />
         <Action href={CONTACT.support} icon={Headphones} label="Soporte" />
-        <Action to={ROUTES.AI_CLOUD} icon={Cpu} label="Prueba GPU" />
+        <Action href={CONTACT.whatsapp} icon={Cpu} label="Prueba GPU" external />
         <Action href={CONTACT.ceo} icon={UserRound} label="Hablar con CEO" />
         <span className="hidden items-center gap-2 rounded-full bg-[var(--color-graphite)] px-3.5 py-2 text-xs font-medium text-white xl:inline-flex">
           <Calendar size={14} className="text-[var(--color-silver)]" />
