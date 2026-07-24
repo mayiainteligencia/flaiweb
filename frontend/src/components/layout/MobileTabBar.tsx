@@ -1,5 +1,9 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
+
+// Isomórfico: en el prerender (sin DOM) usa useEffect para no emitir el warning
+// "useLayoutEffect does nothing on the server".
+const useIsoLayoutEffect = typeof window !== 'undefined' ? useLayoutEffect : useEffect;
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Home,
@@ -65,7 +69,7 @@ export default function MobileTabBar({ visible = true }: { visible?: boolean }) 
   const highlight = openIdx ?? active;
 
   // Mueve el indicador hacia el tab resaltado (offsetLeft → se desplaza junto al scroll).
-  useLayoutEffect(() => {
+  useIsoLayoutEffect(() => {
     const update = () => {
       const el = btnRefs.current[highlight];
       if (el) setIndicator({ width: el.offsetWidth, x: el.offsetLeft });

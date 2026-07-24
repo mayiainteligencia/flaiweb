@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url><loc>https://www.flainube.mx/</loc><xhtml:link rel="alternate" hreflang="es-MX" href="https://www.flainube.mx/"/></url>
+  <url><loc>https://www.flainube.mx/services/compute</loc><xhtml:link rel="alternate" hreflang="es-MX" href="https://www.flainube.mx/services/compute"/></url>
+  <url><loc>https://www.flainube.mx/services/private-cloud</loc><xhtml:link rel="alternate" hreflang="es-MX" href="https://www.flainube.mx/services/private-cloud"/></url>
+  <url><loc>https://www.flainube.mx/services/on-prem-cloud</loc><xhtml:link rel="alternate" hreflang="es-MX" href="https://www.flainube.mx/services/on-prem-cloud"/></url>
+  <url><loc>https://www.flainube.mx/services/kubernetes</loc><xhtml:link rel="alternate" hreflang="es-MX" href="https://www.flainube.mx/services/kubernetes"/></url>
+  <url><loc>https://www.flainube.mx/services/storage</loc><xhtml:link rel="alternate" hreflang="es-MX" href="https://www.flainube.mx/services/storage"/></url>
+  <url><loc>https://www.flainube.mx/services/databases</loc><xhtml:link rel="alternate" hreflang="es-MX" href="https://www.flainube.mx/services/databases"/></url>
+  <url><loc>https://www.flainube.mx/services/networking</loc><xhtml:link rel="alternate" hreflang="es-MX" href="https://www.flainube.mx/services/networking"/></url>
+  <url><loc>https://www.flainube.mx/services/security</loc><xhtml:link rel="alternate" hreflang="es-MX" href="https://www.flainube.mx/services/security"/></url>
+  <url><loc>https://www.flainube.mx/services/backup-drp</loc><xhtml:link rel="alternate" hreflang="es-MX" href="https://www.flainube.mx/services/backup-drp"/></url>
+  <url><loc>https://www.flainube.mx/services/ai-cloud</loc><xhtml:link rel="alternate" hreflang="es-MX" href="https://www.flainube.mx/services/ai-cloud"/></url>
+  <url><loc>https://www.flainube.mx/services/videovigilancia</loc><xhtml:link rel="alternate" hreflang="es-MX" href="https://www.flainube.mx/services/videovigilancia"/></url>
+  <url><loc>https://www.flainube.mx/industries</loc><xhtml:link rel="alternate" hreflang="es-MX" href="https://www.flainube.mx/industries"/></url>
+  <url><loc>https://www.flainube.mx/marketplace</loc><xhtml:link rel="alternate" hreflang="es-MX" href="https://www.flainube.mx/marketplace"/></url>
+  <url><loc>https://www.flainube.mx/trust-center</loc><xhtml:link rel="alternate" hreflang="es-MX" href="https://www.flainube.mx/trust-center"/></url>
+  <url><loc>https://www.flainube.mx/precios</loc><xhtml:link rel="alternate" hreflang="es-MX" href="https://www.flainube.mx/precios"/></url>
+  <url><loc>https://www.flainube.mx/contacto</loc><xhtml:link rel="alternate" hreflang="es-MX" href="https://www.flainube.mx/contacto"/></url>
+  <url><loc>https://www.flainube.mx/recursos/documentacion</loc><xhtml:link rel="alternate" hreflang="es-MX" href="https://www.flainube.mx/recursos/documentacion"/></url>
+</urlset>

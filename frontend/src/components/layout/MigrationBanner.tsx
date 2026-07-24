@@ -45,41 +45,42 @@ function pad(n: number) {
 /*  • Adaptativo mobile / desktop                                      */
 /* ================================================================== */
 export default function MigrationBanner() {
-  const [hidden, setHidden] = useState(() => {
-    if (localStorage.getItem(KEY) === '1') return true;
-    if (Date.now() > PROMO_END.getTime()) return true;
-    return false;
-  });
-
-  const [time, setTime] = useState(() => getTimeLeft(PROMO_END));
+  // Se muestra por defecto (también en SSR) → reserva su altura desde el primer
+  // paint y NO provoca CLS en visitantes nuevos ni en crawlers. En cliente se
+  // oculta solo si el usuario ya la cerró o la promo expiró (colapso reverso, raro).
+  const [hidden, setHidden] = useState(false);
+  // time = null en SSR y primera hidratación → placeholders "--" (evita el
+  // mismatch de hidratación que causaría el countdown basado en Date.now()).
+  const [time, setTime] = useState<ReturnType<typeof getTimeLeft> | null>(null);
 
   useEffect(() => {
-    if (hidden) return;
+    if (localStorage.getItem(KEY) === '1' || Date.now() > PROMO_END.getTime()) {
+      setHidden(true);
+      return;
+    }
+    setTime(getTimeLeft(PROMO_END));
     const id = setInterval(() => {
       const t = getTimeLeft(PROMO_END);
       setTime(t);
-      // Si la promo terminó, ocultar automáticamente
-      if (t.days + t.hours + t.mins + t.secs === 0) {
-        setHidden(true);
-      }
+      if (t.days + t.hours + t.mins + t.secs === 0) setHidden(true);
     }, 1_000);
     return () => clearInterval(id);
-  }, [hidden]);
+  }, []);
 
   const dismiss = useCallback(() => {
     localStorage.setItem(KEY, '1');
     setHidden(true);
   }, []);
 
-  if (hidden) return null;
-
   return (
     <AnimatePresence>
       {!hidden && (
         <motion.div
           key="migration-banner"
-          initial={{ height: 0, opacity: 0 }}
-          animate={{ height: 'auto', opacity: 1 }}
+          // Solo fade (opacity no afecta layout) → sin CLS. El colapso de altura
+          // queda para exit (cierre por el usuario), que no cuenta como CLS.
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
           exit={{ height: 0, opacity: 0 }}
           transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
           className="mig-root relative z-50 shrink-0 overflow-hidden"
@@ -89,37 +90,7 @@ export default function MigrationBanner() {
             {/* Shimmer decorativo */}
             <div className="mig-shimmer" aria-hidden />
 
-            {/* Texto de la promo */}
-            <div className="mig-copy">
-              <span className="mig-headline">MIGRACIÓN SIN COSTO</span>
-              <span className="mig-sub hidden sm:inline">
-                Operación gratuita el 1er mes&nbsp;|&nbsp;Diagnóstico de migración incluido
-              </span>
-            </div>
-
-            {/* Separador vertical (solo desktop) */}
-            <span className="mig-sep hidden sm:block" aria-hidden />
-
-            {/* Countdown */}
-            <div className="mig-countdown" aria-label="Tiempo restante de la promoción">
-              <CountdownUnit value={time.days} label="días" />
-              <span className="mig-colon">:</span>
-              <CountdownUnit value={time.hours} label="hrs" />
-              <span className="mig-colon">:</span>
-              <CountdownUnit value={time.mins} label="min" />
-              <span className="mig-colon">:</span>
-              <CountdownUnit value={time.secs} label="seg" />
-            </div>
-
-            {/* Separador vertical (solo desktop) */}
-            <span className="mig-sep hidden sm:block" aria-hidden />
-
-            {/* CTA */}
-            <NavLink to={MIGRATION_PROMO.to} className="mig-cta">
-              {MIGRATION_PROMO.cta}
-            </NavLink>
-
-            {/* Cerrar */}
+            {/* Cerrar — siempre en la esquina superior derecha */}
             <button
               onClick={dismiss}
               aria-label="Cerrar promoción"
@@ -127,6 +98,34 @@ export default function MigrationBanner() {
             >
               <X size={14} />
             </button>
+
+            {/* ── ROW 1 (mobile) / inline (desktop): Texto ── */}
+            <div className="mig-row1">
+              <span className="mig-headline">MIGRACIÓN SIN COSTO</span>
+              <span className="mig-sub">
+                Operación gratuita el 1er mes&nbsp;|&nbsp;Diagnóstico incluido
+              </span>
+            </div>
+
+            {/* Separador vertical (solo desktop) */}
+            <span className="mig-sep" aria-hidden />
+
+            {/* ── ROW 2 (mobile) / inline (desktop): Countdown + CTA ── */}
+            <div className="mig-row2">
+              <div className="mig-countdown" aria-label="Tiempo restante de la promoción">
+                <CountdownUnit value={time?.days ?? null} label="días" />
+                <span className="mig-colon">:</span>
+                <CountdownUnit value={time?.hours ?? null} label="hrs" />
+                <span className="mig-colon">:</span>
+                <CountdownUnit value={time?.mins ?? null} label="min" />
+                <span className="mig-colon">:</span>
+                <CountdownUnit value={time?.secs ?? null} label="seg" />
+              </div>
+
+              <NavLink to={MIGRATION_PROMO.to} className="mig-cta">
+                {MIGRATION_PROMO.cta}
+              </NavLink>
+            </div>
           </div>
 
           {/* ─── Ticker inferior con beneficios ─── */}
@@ -148,10 +147,11 @@ export default function MigrationBanner() {
 }
 
 /* ─── Sub-componente: dígito del countdown ─── */
-function CountdownUnit({ value, label }: { value: number; label: string }) {
+// value = null en SSR/primer render → "--" (mismo ancho por min-width en CSS, sin CLS).
+function CountdownUnit({ value, label }: { value: number | null; label: string }) {
   return (
     <div className="mig-unit">
-      <span className="mig-digits">{pad(value)}</span>
+      <span className="mig-digits">{value == null ? '--' : pad(value)}</span>
       <span className="mig-label">{label}</span>
     </div>
   );

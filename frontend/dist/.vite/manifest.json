@@ -1,0 +1,54 @@
+{
+  "_client-C-6oi5bo.js": {
+    "file": "assets/client-C-6oi5bo.js",
+    "name": "client",
+    "isDynamicEntry": true,
+    "imports": [
+      "index.html"
+    ]
+  },
+  "index.html": {
+    "file": "assets/app-C-z00kv8.js",
+    "name": "app",
+    "src": "index.html",
+    "isEntry": true,
+    "dynamicImports": [
+      "_client-C-6oi5bo.js"
+    ],
+    "css": [
+      "assets/app-BMigXgCW.css"
+    ],
+    "assets": [
+      "assets/logo-FLAI-D4AvsBDs.png",
+      "assets/mayiaLogoBlanco-BBItN7Fd.png",
+      "assets/hechoEnMexico-CELUIvKO.svg",
+      "assets/nubeFlaiP-D-XPzRWj.png",
+      "assets/2-DbAn3mOv.jpg",
+      "assets/4-SibZ5FlW.jpg"
+    ]
+  },
+  "src/assets/images/hero/2.jpg": {
+    "file": "assets/2-DbAn3mOv.jpg",
+    "src": "src/assets/images/hero/2.jpg"
+  },
+  "src/assets/images/hero/4.jpg": {
+    "file": "assets/4-SibZ5FlW.jpg",
+    "src": "src/assets/images/hero/4.jpg"
+  },
+  "src/assets/images/logos/hechoEnMexico.svg": {
+    "file": "assets/hechoEnMexico-CELUIvKO.svg",
+    "src": "src/assets/images/logos/hechoEnMexico.svg"
+  },
+  "src/assets/images/logos/logo-FLAI.png": {
+    "file": "assets/logo-FLAI-D4AvsBDs.png",
+    "src": "src/assets/images/logos/logo-FLAI.png"
+  },
+  "src/assets/images/logos/mayiaLogoBlanco.png": {
+    "file": "assets/mayiaLogoBlanco-BBItN7Fd.png",
+    "src": "src/assets/images/logos/mayiaLogoBlanco.png"
+  },
+  "src/assets/images/logos/nubeFlaiP.png": {
+    "file": "assets/nubeFlaiP-D-XPzRWj.png",
+    "src": "src/assets/images/logos/nubeFlaiP.png"
+  }
+}

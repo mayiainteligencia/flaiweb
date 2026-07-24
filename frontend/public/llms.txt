@@ -1,0 +1,26 @@
+# FLAI
+
+> FLAI es la nube soberana mexicana: infraestructura de nube empresarial con residencia de datos en México, soberanía demostrable y soporte en español.
+
+## Servicios
+- [Cloud Compute](https://www.flainube.mx/services/compute): Cómputo soberano en México para cargas reales de negocio.
+- [Private Cloud](https://www.flainube.mx/services/private-cloud): Nube privada con control, aislamiento y cumplimiento.
+- [On-Prem Cloud](https://www.flainube.mx/services/on-prem-cloud): La experiencia FLAI dentro de tu propio data center.
+- [Kubernetes](https://www.flainube.mx/services/kubernetes): Kubernetes administrado con gobierno y seguridad.
+- [Storage](https://www.flainube.mx/services/storage): Almacenamiento escalable con residencia de datos en México.
+- [Databases](https://www.flainube.mx/services/databases): Bases de datos administradas.
+- [Networking](https://www.flainube.mx/services/networking): Conectividad segura y privada optimizada para México.
+- [Security & Trust](https://www.flainube.mx/services/security): Seguridad integrada desde la arquitectura.
+- [Backup & DRP](https://www.flainube.mx/services/backup-drp): Respaldo y recuperación ante desastres dentro de México.
+- [AI Cloud](https://www.flainube.mx/services/ai-cloud): IA empresarial sobre nube mexicana (GPU, MLOps, RAG, agentes).
+- [Videovigilancia](https://www.flainube.mx/services/videovigilancia): Almacenamiento de videovigilancia en la nube soberana.
+
+## Empresa
+- [Industrias](https://www.flainube.mx/industries): Gobierno, banca, salud, manufactura, retail y educación.
+- [Trust Center](https://www.flainube.mx/trust-center): Soberanía demostrable, cumplimiento, cifrado y residencia de datos.
+- [Precios](https://www.flainube.mx/precios): Planes de nube soberana con soporte en español.
+- [Marketplace](https://www.flainube.mx/marketplace): Soluciones y software certificado.
+- [Contacto](https://www.flainube.mx/contacto): Agenda un diagnóstico o cotiza tu migración.
+
+## Recursos
+- [Documentación, White Papers y Blog](https://www.flainube.mx/recursos/documentacion)

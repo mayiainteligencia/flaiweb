@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { ClientOnly } from 'vite-react-ssg';
 import { MeshGradient } from '@paper-design/shaders-react';
 import logoFlai from '@/assets/images/logos/logo-FLAI.png';
 import logoMayia from '@/assets/images/logos/mayiaLogoBlanco.png';
@@ -14,7 +15,11 @@ function scrollProgress(section: HTMLElement | null) {
   return Math.min(1, Math.max(0, -section.getBoundingClientRect().top / total));
 }
 
-export default function Hero() {
+// ── Capa VISUAL ────────────────────────────────────────────────────────────
+// WebGL (MeshGradient), scroll, rAF e IntersectionObserver. Solo en cliente.
+// El Hero es splash puro: el h1/contenido SEO vive en la sección que sigue
+// al whiteout (Overview), en el HTML estático.
+function HeroVisual() {
   const sectionRef = useRef<HTMLElement>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
   const fogRef = useRef<HTMLDivElement>(null);
@@ -147,5 +152,14 @@ export default function Hero() {
         <div className="hero__fog" ref={fogRef} aria-hidden />
       </div>
     </section>
+  );
+}
+
+export default function Hero() {
+  // fallback = placeholder de la misma altura/fondo que .hero → sin salto de layout.
+  return (
+    <ClientOnly fallback={<div className="hero-fallback" aria-hidden />}>
+      {() => <HeroVisual />}
+    </ClientOnly>
   );
 }

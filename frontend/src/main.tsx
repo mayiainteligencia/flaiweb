@@ -1,15 +1,9 @@
-import { StrictMode } from 'react';
-import { createRoot } from 'react-dom/client';
-import { BrowserRouter } from 'react-router-dom';
+import { ViteReactSSG } from 'vite-react-ssg';
+import { routes } from './App';
 import './branding/tailwind.css';
 import './branding/theme.css';
 import './branding/responsive.css';
-import App from './App';
 
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  </StrictMode>,
-);
+// vite-react-ssg arma el router (createBrowserRouter en cliente, estático en build)
+// e hidrata. `npm run dev` sigue usando Vite; el build usa `vite-react-ssg build`.
+export const createRoot = ViteReactSSG({ routes });

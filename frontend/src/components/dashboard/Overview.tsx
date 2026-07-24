@@ -73,8 +73,11 @@ export default function Overview() {
         <div className="max-w-2xl">
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-accent">La Nube Mexicana</p>
           <h1 className="mt-3 text-3xl font-semibold leading-tight text-text-primary sm:text-4xl">
-            Soberana, privada, híbrida, on-prem y lista para inteligencia artificial.
+            FLAI — La nube soberana mexicana
           </h1>
+          <p className="mt-3 text-lg font-medium leading-snug text-text-primary/90 sm:text-xl">
+            Soberana, privada, híbrida, on-prem y lista para inteligencia artificial.
+          </p>
           <p className="mt-4 text-base text-text-secondary">
             Opera, protege y escala tus datos, aplicaciones e IA dentro de México, con control,
             continuidad y soporte experto en español.

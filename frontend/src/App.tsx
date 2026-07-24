@@ -1,6 +1,7 @@
-import { Routes, Route, Outlet } from 'react-router-dom';
-import { ROUTES } from '@/constants/routes';
+import { Outlet } from 'react-router-dom';
+import type { RouteRecord } from 'vite-react-ssg';
 import { JarvisProvider } from '@/components/ai/Jarvis';
+import RouteSeo from '@/seo/RouteSeo';
 import Home from '@/pages/Home';
 import DashboardLayout from '@/components/layout/DashboardLayout';
 import SectionPlaceholder from '@/pages/SectionPlaceholder';
@@ -24,58 +25,81 @@ import Recursos from '@/pages/Recursos';
 import Overview from '@/components/dashboard/Overview';
 import Advisor from '@/pages/Advisor';
 
-export default function App() {
+// Provider de MAYIA + SEO por ruta. Envuelve toda la app (dentro del router).
+function RootLayout() {
   return (
     <JarvisProvider>
-    <Routes>
-      {/* Inicio: Hero (nube) + dashboard con overview */}
-      <Route path={ROUTES.HOME} element={<Home />} />
-
-      {/* Resto de páginas dentro del shell del dashboard (sin Hero) */}
-      <Route
-        element={
-          <DashboardLayout>
-            <Outlet />
-          </DashboardLayout>
-        }
-      >
-        {/* Inicio del dashboard (Overview) sin el Hero de la nube */}
-        <Route path={ROUTES.DASHBOARD} element={<Overview />} />
-
-        {/* Asesor Cloud: calculadora del mejor servicio */}
-        <Route path={ROUTES.ADVISOR} element={<Advisor />} />
-
-        <Route path={ROUTES.COMPUTE} element={<Compute />} />
-        <Route path={ROUTES.PRIVATE_CLOUD} element={<PrivateCloud />} />
-        <Route path={ROUTES.ON_PREM} element={<OnPremCloud />} />
-        <Route path={ROUTES.KUBERNETES} element={<Kubernetes />} />
-        <Route path={ROUTES.STORAGE} element={<Storage />} />
-        <Route path={ROUTES.DATABASES} element={<Databases />} />
-        <Route path={ROUTES.NETWORKING} element={<Networking />} />
-        <Route path={ROUTES.SECURITY} element={<Security />} />
-        <Route path={ROUTES.BACKUP_DRP} element={<BackupDRP />} />
-        <Route path={ROUTES.AI_CLOUD} element={<AICloud />} />
-        <Route path={ROUTES.VIDEOVIGILANCIA} element={<Videovigilancia />} />
-
-        {/* Industrias: catálogo único; cada ruta por sector renderiza el mismo catálogo por ahora */}
-        <Route path="/industries" element={<Industries />} />
-        <Route path="/industries/*" element={<Industries />} />
-
-        {/* Generales */}
-        <Route path={ROUTES.MARKETPLACE} element={<Marketplace />} />
-        <Route path={ROUTES.TRUST_CENTER} element={<TrustCenter />} />
-        <Route path={ROUTES.PRICING} element={<Pricing />} />
-        <Route path={ROUTES.CONTACT} element={<Contact />} />
-
-        {/* Recursos: una página agrupa documentación, white papers y blog */}
-        <Route path={ROUTES.DOCS} element={<Recursos />} />
-        <Route path={ROUTES.WHITEPAPERS} element={<Recursos />} />
-        <Route path={ROUTES.BLOG} element={<Recursos />} />
-
-        {/* Secciones aún no construidas */}
-        <Route path="*" element={<SectionPlaceholder />} />
-      </Route>
-    </Routes>
+      <RouteSeo />
+      <Outlet />
     </JarvisProvider>
   );
 }
+
+// Shell del dashboard (sidebar/header) para todo menos el Home.
+function DashboardShell() {
+  return (
+    <DashboardLayout>
+      <Outlet />
+    </DashboardLayout>
+  );
+}
+
+// Rutas como data (vite-react-ssg las enumera para prerenderizar).
+// Los splats (*, industries/*) se excluyen del prerender automáticamente.
+export const routes: RouteRecord[] = [
+  {
+    path: '/',
+    element: <RootLayout />,
+    children: [
+      { index: true, element: <Home /> },
+      {
+        element: <DashboardShell />,
+        children: [
+          { path: 'inicio', element: <Overview /> },
+          { path: 'asesor-cloud', element: <Advisor /> },
+
+          { path: 'services/compute', element: <Compute /> },
+          { path: 'services/private-cloud', element: <PrivateCloud /> },
+          { path: 'services/on-prem-cloud', element: <OnPremCloud /> },
+          { path: 'services/kubernetes', element: <Kubernetes /> },
+          { path: 'services/storage', element: <Storage /> },
+          { path: 'services/databases', element: <Databases /> },
+          { path: 'services/networking', element: <Networking /> },
+          { path: 'services/security', element: <Security /> },
+          { path: 'services/backup-drp', element: <BackupDRP /> },
+          { path: 'services/ai-cloud', element: <AICloud /> },
+          { path: 'services/videovigilancia', element: <Videovigilancia /> },
+
+          // Industrias: catálogo único. Los 6 sectores se prerenderizan (canónico
+          // a /industries en el SEO) para que resuelvan en carga directa. El splat
+          // queda para cualquier otra ruta cliente.
+          { path: 'industries', element: <Industries /> },
+          { path: 'industries/gobierno', element: <Industries /> },
+          { path: 'industries/banca-finanzas', element: <Industries /> },
+          { path: 'industries/salud', element: <Industries /> },
+          { path: 'industries/manufactura', element: <Industries /> },
+          { path: 'industries/retail', element: <Industries /> },
+          { path: 'industries/educacion', element: <Industries /> },
+          { path: 'industries/*', element: <Industries /> },
+
+          // Partners: placeholder (sección aún no construida) — se prerenderiza para evitar 404.
+          { path: 'partners', element: <SectionPlaceholder /> },
+
+          { path: 'marketplace', element: <Marketplace /> },
+          { path: 'trust-center', element: <TrustCenter /> },
+          { path: 'precios', element: <Pricing /> },
+          { path: 'contacto', element: <Contact /> },
+
+          // Recursos: 3 rutas, mismo componente (canónico a documentación en el SEO).
+          { path: 'recursos/documentacion', element: <Recursos /> },
+          { path: 'recursos/white-papers', element: <Recursos /> },
+          { path: 'recursos/blog', element: <Recursos /> },
+
+          // 404 real (se prerenderiza; el hosting debe servirlo con status 404).
+          { path: '404', element: <SectionPlaceholder /> },
+          { path: '*', element: <SectionPlaceholder /> },
+        ],
+      },
+    ],
+  },
+];
