@@ -1,0 +1,31 @@
+name: build
+
+# Corre el build de prerender en cada push y PR. Falla si el build falla.
+# Esto atrapa código SSR-inseguro (window/document/localStorage/canvas en el
+# cuerpo del render) que `npm run dev` NO detecta — solo el build lo revela.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install
+        run: npm ci
+
+      - name: Build (prerender)
+        run: npm run build
