@@ -124,6 +124,7 @@ export default function RouteSeo() {
   return (
     <Head>
       <html lang="es-MX" />
+      <meta name="google-site-verification" content="ae04K5mprshSaR80DTcmMSw7w7XEu_FnRd6eQ16HqWs" />
       <title>{page.title}</title>
       <meta name="description" content={page.description} />
       <link rel="canonical" href={canonical} />
