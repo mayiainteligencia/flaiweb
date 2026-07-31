@@ -42,7 +42,6 @@ const NAV: NavNode[] = [
     ],
   },
   { type: 'item', label: 'Marketplace', to: ROUTES.MARKETPLACE, icon: 'marketplace' },
-  { type: 'item', label: 'Partners', to: ROUTES.PARTNERS, icon: 'partners' },
   { type: 'item', label: 'Trust Center', to: ROUTES.TRUST_CENTER, icon: 'trust' },
   { type: 'item', label: 'Precios', to: ROUTES.PRICING, icon: 'pricing' },
   {

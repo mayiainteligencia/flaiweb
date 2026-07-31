@@ -24,6 +24,7 @@ import Contact from '@/pages/Contact';
 import Recursos from '@/pages/Recursos';
 import Overview from '@/components/dashboard/Overview';
 import Advisor from '@/pages/Advisor';
+import Privacy from '@/pages/Privacy';
 
 // Provider de MAYIA + SEO por ruta. Envuelve toda la app (dentro del router).
 function RootLayout() {
@@ -89,6 +90,7 @@ export const routes: RouteRecord[] = [
           { path: 'trust-center', element: <TrustCenter /> },
           { path: 'precios', element: <Pricing /> },
           { path: 'contacto', element: <Contact /> },
+          { path: 'aviso-de-privacidad', element: <Privacy /> },
 
           // Recursos: 3 rutas, mismo componente (canónico a documentación en el SEO).
           { path: 'recursos/documentacion', element: <Recursos /> },

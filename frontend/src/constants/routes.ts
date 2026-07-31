@@ -35,4 +35,5 @@ export const ROUTES = {
   PRICING: '/precios',
   CONTACT: '/contacto',
   ADVISOR: '/asesor-cloud', // recomendador/calculadora del mejor servicio
+  PRIVACY: '/aviso-de-privacidad',
 } as const;

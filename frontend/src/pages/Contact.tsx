@@ -1,7 +1,9 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { CheckCircle2, Mail, Phone, MapPin } from 'lucide-react';
 import PageHeader, { reveal } from '@/components/ui/PageHeader';
+import { ROUTES } from '@/constants/routes';
 
 const INTERESTS = [
   'Diagnóstico cloud',
@@ -76,6 +78,14 @@ export default function Contact() {
               >
                 Enviar
               </button>
+
+              <p className="text-xs text-text-secondary">
+                Al enviar aceptas nuestro{' '}
+                <Link to={ROUTES.PRIVACY} className="font-medium text-accent hover:underline">
+                  Aviso de privacidad
+                </Link>
+                .
+              </p>
             </form>
           )}
         </motion.section>

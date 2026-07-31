@@ -1,6 +1,6 @@
 {
-  "_client-CGReQo_p.js": {
-    "file": "assets/client-CGReQo_p.js",
+  "_client-BWPSTQq3.js": {
+    "file": "assets/client-BWPSTQq3.js",
     "name": "client",
     "isDynamicEntry": true,
     "imports": [
@@ -8,15 +8,15 @@
     ]
   },
   "index.html": {
-    "file": "assets/app-DKw5h_Ho.js",
+    "file": "assets/app-COdDoRAD.js",
     "name": "app",
     "src": "index.html",
     "isEntry": true,
     "dynamicImports": [
-      "_client-CGReQo_p.js"
+      "_client-BWPSTQq3.js"
     ],
     "css": [
-      "assets/app-BeD9JOGw.css"
+      "assets/app-C4w0WdgV.css"
     ],
     "assets": [
       "assets/logo-FLAI-D4AvsBDs.png",
