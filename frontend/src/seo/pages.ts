@@ -126,7 +126,7 @@ export const PAGES: PageSeo[] = [
   { path: '/partners', title: 'Partners | FLAI', description: 'Programa de partners de la nube soberana mexicana FLAI.', sitemap: false, noindex: true },
   { path: '/marketplace', title: 'Marketplace | FLAI', description: 'Soluciones, partners y software certificado sobre la nube soberana mexicana FLAI.', sitemap: true },
   { path: '/trust-center', title: 'Trust Center | FLAI', description: 'Soberanía demostrable: certificaciones, cumplimiento, cifrado, residencia de datos en México y controles verificables.', sitemap: true },
-  { path: '/precios', title: 'Precios | FLAI', description: 'Planes y precios de la nube soberana FLAI, desde nube inicial hasta workloads críticos, con soporte en español.', sitemap: true },
+  { path: '/precios', title: 'Paquetes y Soluciones | FLAI', description: 'Paquetes de nube soberana FLAI cotizados a la medida con un arquitecto: nube inicial, corporativa, crítica y soberana, con soporte en español.', sitemap: true },
   { path: '/contacto', title: 'Contacto | FLAI', description: 'Agenda un diagnóstico o cotiza tu migración a la nube soberana mexicana FLAI.', sitemap: true },
   { path: '/aviso-de-privacidad', title: 'Aviso de Privacidad | FLAI', description: 'Aviso de privacidad de FLAI (Edgenet Data Technologies) conforme a la LFPDPPP: datos que recabamos, finalidades, transferencias, derechos ARCO y contacto.', sitemap: true },
 

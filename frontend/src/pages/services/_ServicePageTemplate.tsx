@@ -59,10 +59,10 @@ export default function ServicePage({ slug, children }: { slug: ServiceSlug; chi
             Agenda un diagnóstico <ArrowRight size={16} />
           </NavLink>
           <NavLink
-            to={ROUTES.PRICING}
+            to={ROUTES.CONTACT}
             className="inline-flex items-center gap-2 rounded-md border border-border-subtle px-5 py-2.5 text-sm font-semibold text-text-primary transition-colors hover:bg-hover-bg"
           >
-            Ver precios
+            Solicitar cotización
           </NavLink>
         </div>
       </motion.header>

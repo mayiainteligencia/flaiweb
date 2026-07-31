@@ -1,6 +1,5 @@
-import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { ArrowRight, Check, Tag } from 'lucide-react';
 import { PLANS, QUOTE_PLANS, PRICE_COMPONENTS } from '@/data/pricing';
 import type { Plan } from '@/data/pricing';
@@ -13,11 +12,7 @@ const reveal = {
   transition: { duration: 0.5, ease: 'easeOut' },
 } as const;
 
-const mxn = new Intl.NumberFormat('es-MX', { maximumFractionDigits: 0 });
-
 export default function Pricing() {
-  const [yearly, setYearly] = useState(false);
-
   return (
     <div className="mx-auto max-w-6xl pb-8">
       <div className="relative overflow-hidden rounded-3xl border border-border-subtle bg-white px-5 py-14 sm:px-10">
@@ -29,26 +24,23 @@ export default function Pricing() {
         <div aria-hidden className="pointer-events-none absolute -top-40 left-1/2 h-96 w-[42rem] -translate-x-1/2 rounded-full bg-accent/10 blur-[120px]" />
         <div aria-hidden className="pointer-events-none absolute top-20 right-0 h-80 w-80 rounded-full bg-status-ok/10 blur-[120px]" />
 
-        {/* Encabezado + switch */}
+        {/* Encabezado */}
         <header className="relative z-10 mx-auto max-w-3xl space-y-3 text-center">
           <motion.span {...reveal} className="text-xs font-semibold uppercase tracking-[0.2em] text-accent">
-            Precios
+            Paquetes
           </motion.span>
           <motion.h1 {...reveal} transition={{ ...reveal.transition, delay: 0.05 }} className="text-3xl font-semibold text-text-primary sm:text-4xl">
-            Planes claros para cada etapa de tu nube
+            Paquetes cloud a la medida
           </motion.h1>
           <motion.p {...reveal} transition={{ ...reveal.transition, delay: 0.1 }} className="text-sm text-text-secondary">
-            Precios indicativos en MXN. Los proyectos enterprise y soberanos se cierran bajo cotización con un arquitecto FLAI.
+            Cada solución se cotiza a la medida con un arquitecto FLAI.
           </motion.p>
-          <motion.div {...reveal} transition={{ ...reveal.transition, delay: 0.15 }} className="pt-2">
-            <BillingSwitch yearly={yearly} onChange={setYearly} />
-          </motion.div>
         </header>
 
-        {/* Paquetes con precio */}
+        {/* Paquetes */}
         <div className="relative z-10 mx-auto mt-12 grid max-w-5xl gap-5 md:grid-cols-3">
           {PLANS.map((plan, i) => (
-            <PriceCard key={plan.name} plan={plan} yearly={yearly} delay={i * 0.1} />
+            <PriceCard key={plan.name} plan={plan} delay={i * 0.1} />
           ))}
         </div>
 
@@ -109,40 +101,7 @@ export default function Pricing() {
   );
 }
 
-function BillingSwitch({ yearly, onChange }: { yearly: boolean; onChange: (v: boolean) => void }) {
-  return (
-    <div className="inline-flex rounded-full border border-border-subtle bg-card p-1">
-      {[
-        { label: 'Mensual', value: false },
-        { label: 'Anual', value: true },
-      ].map((opt) => {
-        const active = opt.value === yearly;
-        return (
-          <button
-            key={opt.label}
-            onClick={() => onChange(opt.value)}
-            className={`relative z-10 h-9 rounded-full px-5 text-sm font-medium transition-colors ${
-              active ? 'text-white' : 'text-text-secondary hover:text-text-primary'
-            }`}
-          >
-            {active && (
-              <motion.span
-                layoutId="billing-pill"
-                className="absolute inset-0 -z-10 rounded-full bg-gradient-to-t from-[#cc0000] to-accent shadow-[0_0_18px_-2px] shadow-accent/50"
-                transition={{ type: 'spring', stiffness: 500, damping: 32 }}
-              />
-            )}
-            {opt.label}
-          </button>
-        );
-      })}
-    </div>
-  );
-}
-
-function PriceCard({ plan, yearly, delay }: { plan: Plan; yearly: boolean; delay: number }) {
-  const price = yearly ? plan.priceYearly : plan.priceMonthly;
-
+function PriceCard({ plan, delay }: { plan: Plan; delay: number }) {
   return (
     <motion.div
       {...reveal}
@@ -160,28 +119,7 @@ function PriceCard({ plan, yearly, delay }: { plan: Plan; yearly: boolean; delay
       )}
 
       <h3 className="text-2xl font-semibold text-text-primary">{plan.name}</h3>
-      <div className="mt-3 flex items-baseline gap-1">
-        {price != null ? (
-          <>
-            <span className="text-3xl font-semibold text-text-primary">$</span>
-            <AnimatePresence mode="popLayout" initial={false}>
-              <motion.span
-                key={price}
-                initial={{ y: 12, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                exit={{ y: -12, opacity: 0 }}
-                transition={{ duration: 0.25 }}
-                className="text-4xl font-semibold tabular-nums text-text-primary"
-              >
-                {mxn.format(price)}
-              </motion.span>
-            </AnimatePresence>
-            <span className="ml-1 text-sm text-text-secondary">MXN / {yearly ? 'año' : 'mes'}</span>
-          </>
-        ) : (
-          <span className="text-3xl font-semibold text-text-primary">Cotización</span>
-        )}
-      </div>
+      <p className="mt-3 text-2xl font-semibold text-text-primary">Cotización personalizada</p>
       <p className="mt-2 text-sm text-text-secondary">{plan.audience}</p>
 
       <NavLink

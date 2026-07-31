@@ -1,9 +1,8 @@
 import { motion } from 'framer-motion';
 import PageHeader, { reveal } from '@/components/ui/PageHeader';
-import { CONTACT } from '@/data/contact';
 
-// Correo de privacidad (deriva del dato central; mailto sin el prefijo para mostrarlo).
-const PRIVACY_EMAIL = 'vviniegra@flainube.mx';
+// Correo general para asuntos de privacidad.
+const PRIVACY_EMAIL = 'contacto@flainube.mx';
 const SITE_URL = 'https://www.flainube.mx';
 const UPDATED = '31 de julio de 2026';
 
@@ -181,7 +180,7 @@ export default function Privacy() {
 
       <p className="border-t border-border-subtle pt-4 text-xs text-text-secondary">
         Última actualización: {UPDATED}. Correo de privacidad:{' '}
-        <a href={CONTACT.email} className="font-medium text-accent hover:underline">
+        <a href={`mailto:${PRIVACY_EMAIL}`} className="font-medium text-accent hover:underline">
           {PRIVACY_EMAIL}
         </a>
         .

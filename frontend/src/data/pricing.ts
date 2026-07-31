@@ -1,25 +1,21 @@
 import { ROUTES } from '@/constants/routes';
 
 // Paquetes comerciales (Documento guía, sección 10).
-// Precios indicativos en MXN/mes; los proyectos enterprise se cierran bajo cotización.
+// Cada solución se cotiza a la medida con un arquitecto FLAI.
 export type Plan = {
   name: string;
   audience: string; // para quién
   includes: string[];
   cta: string;
   to: string;
-  priceMonthly?: number; // indicativo "desde"; undefined => cotización
-  priceYearly?: number;
   featured?: boolean;
 };
 
-// Paquetes de consumo con precio indicativo (se muestran con el switch mensual/anual).
+// Paquetes de consumo (cotización a la medida, sin precio público).
 export const PLANS: Plan[] = [
   {
     name: 'FLAI Essential',
     audience: 'Empresas que inician su nube privada/soberana.',
-    priceMonthly: 2499,
-    priceYearly: 24990,
     includes: ['VMs y storage', 'Backup básico', 'Monitoreo', 'Soporte estándar'],
     cta: 'Calcula tu nube inicial',
     to: ROUTES.CONTACT,
@@ -27,8 +23,6 @@ export const PLANS: Plan[] = [
   {
     name: 'FLAI Business',
     audience: 'Empresas medianas y corporativas.',
-    priceMonthly: 6999,
-    priceYearly: 69990,
     includes: ['Alta disponibilidad', 'Seguridad administrada', 'Backup y reportes', 'FinOps mensual'],
     cta: 'Agenda diagnóstico',
     to: ROUTES.CONTACT,
@@ -37,8 +31,6 @@ export const PLANS: Plan[] = [
   {
     name: 'FLAI Enterprise',
     audience: 'Workloads críticos.',
-    priceMonthly: 14999,
-    priceYearly: 149990,
     includes: ['Arquitectura dedicada', 'SOC/NOC y DRP', 'Cumplimiento', 'Arquitecto asignado y SLA avanzado'],
     cta: 'Diseña tu arquitectura',
     to: ROUTES.CONTACT,

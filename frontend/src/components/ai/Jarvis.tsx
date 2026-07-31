@@ -7,7 +7,6 @@ import BrainCanvas from '@/components/ui/BrainCanvas';
 import { ROUTES } from '@/constants/routes';
 import { SERVICES } from '@/data/services';
 import { INDUSTRIES } from '@/data/industries';
-import { PLANS } from '@/data/pricing';
 
 // ponytail: asistente de voz MAYIA (Web Speech API, sin deps). Navega por toda
 // la página y responde datos puntuales de FLAI. Un solo overlay compartido vía contexto.
@@ -61,8 +60,7 @@ function answerAbout(said: string, pathname: string): Answer | null {
     return { text: 'Soy MAYIA, la asistente de FLAI, la nube soberana mexicana. Puedo llevarte a cualquier sección o resolver tus dudas. ¿Qué necesitas?' };
 
   if (has(said, 'precio', 'cuesta', 'cuanto', 'plan', 'costo', 'tarifa')) {
-    const cheap = [...PLANS].sort((a, b) => (a.priceMonthly ?? 1e9) - (b.priceMonthly ?? 1e9))[0];
-    return { text: `Los planes van desde ${cheap.name}, en ${cheap.priceMonthly?.toLocaleString('es-MX')} pesos al mes. Te abro la página de precios.`, to: ROUTES.PRICING };
+    return { text: 'Cada solución FLAI se cotiza a la medida. Te abro contacto para pedir tu cotización.', to: ROUTES.CONTACT };
   }
   if (has(said, 'servicio', 'que ofrecen', 'que tienen', 'productos'))
     return { text: `FLAI ofrece ${SERVICES.length} servicios de nube: cómputo, almacenamiento, bases de datos, Kubernetes, seguridad, respaldo, inteligencia artificial y más. Dime cuál quieres ver.` };
