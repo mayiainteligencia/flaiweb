@@ -18,9 +18,16 @@ export const SITE = {
   // TODO(Martin): generar imagen OG 1200×630 en /public/og-image.png (NO usar el favicon).
   ogImage: 'https://www.flainube.mx/og-image.png',
   description: 'FLAI es la nube soberana mexicana: infraestructura de nube con datos en México.',
-  // TODO(Martin): llenar con perfiles oficiales (LinkedIn, X, GitHub, Crunchbase, Wikidata).
-  // Estos alimentan Organization.sameAs → clave para que las IAs reconozcan la entidad.
-  sameAs: [] as string[],
+  // Perfiles oficiales → alimentan Organization.sameAs (clave para que las IAs
+  // reconozcan la entidad). Agregar los pendientes conforme se confirmen.
+  sameAs: [
+    'https://www.linkedin.com/company/flai-la-nube-mexicana/',
+    // TODO(Martin): agregar cuando estén listos:
+    // 'https://github.com/mayiainteligencia',
+    // Crunchbase (pendiente)
+    // Wikidata (pendiente)
+    // X/Twitter (pendiente)
+  ] as string[],
   // Dirección para Organization (PostalAddress). País confirmado: México.
   address: { addressCountry: 'MX' as const },
   // TODO(Martin): ubicaciones reales de los data centers en México.
