@@ -1,22 +1,21 @@
 /* ================================================================
-   MigrationBanner – Promo Bar + Countdown + Ticker
+   MigrationBanner – Promo bar (días restantes) + ticker
    FLAI brand: --color-red, --color-green, --color-black, etc.
    ================================================================ */
 
-/* ─── Root ─── */
 .mig-root {
   font-family: var(--font-body);
 }
 
-/* ─── Main container ─── */
+/* ─── Contenedor principal ─── */
 .mig-main {
   position: relative;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  gap: 6px 10px;
-  padding: 8px 36px 8px 12px; /* espacio derecho para el close */
+  gap: 8px 14px;
+  padding: 9px 40px 9px 16px; /* espacio derecho para el close */
   background: linear-gradient(
     92deg,
     #1a0404 0%,
@@ -28,7 +27,7 @@
   overflow: hidden;
 }
 
-/* Shimmer sweep */
+/* Shimmer */
 .mig-shimmer {
   position: absolute;
   inset: 0;
@@ -45,7 +44,35 @@
   animation: mig-sweep 5s ease-in-out infinite;
 }
 
-/* ─── Close button — absolute top-right ─── */
+/* ─── Copy (una sola línea) ─── */
+.mig-copy {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 500;
+  line-height: 1.25;
+  text-align: center;
+}
+
+.mig-days {
+  display: inline-block;
+  min-width: 1.6em; /* estable entre "—" y el número → sin salto */
+  font-family: var(--font-heading);
+  font-weight: 900;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-green);
+}
+
+.mig-urge {
+  font-weight: 800;
+  color: var(--color-green);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* ─── Close ─── */
 .mig-close {
   position: absolute;
   top: 50%;
@@ -70,99 +97,10 @@
   color: #fff;
 }
 
-/* ─── Row 1: Headline + subtitle ─── */
-.mig-row1 {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1px;
-  min-width: 0;
-}
-
-.mig-headline {
-  font-family: var(--font-heading);
-  font-weight: 900;
-  font-size: 0.82rem;
-  letter-spacing: 0.06em;
-  color: #fff;
-  white-space: nowrap;
-}
-
-.mig-sub {
-  font-size: 0.58rem;
-  font-weight: 500;
-  color: rgba(255, 255, 255, 0.7);
-  letter-spacing: 0.02em;
-  white-space: nowrap;
-  text-align: center;
-}
-
-/* ─── Vertical separator ─── */
-.mig-sep {
-  width: 1px;
-  height: 28px;
-  background: rgba(255, 255, 255, 0.2);
-  flex-shrink: 0;
-}
-
-/* ─── Row 2: Countdown + CTA ─── */
-.mig-row2 {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex-shrink: 0;
-}
-
-/* ─── Countdown ─── */
-.mig-countdown {
-  display: flex;
-  align-items: center;
-  gap: 3px;
-  flex-shrink: 0;
-}
-
-.mig-unit {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0;
-}
-
-.mig-digits {
-  font-family: var(--font-heading);
-  font-weight: 800;
-  font-size: 1.05rem;
-  line-height: 1;
-  color: #fff;
-  background: rgba(0, 0, 0, 0.3);
-  border-radius: 5px;
-  padding: 3px 5px;
-  min-width: 28px;
-  text-align: center;
-  letter-spacing: 0.05em;
-  font-variant-numeric: tabular-nums;
-}
-
-.mig-label {
-  font-size: 0.45rem;
-  font-weight: 600;
-  color: rgba(255, 255, 255, 0.5);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  margin-top: 1px;
-}
-
-.mig-colon {
-  font-family: var(--font-heading);
-  font-weight: 800;
-  font-size: 1rem;
-  color: rgba(255, 255, 255, 0.45);
-  line-height: 1;
-  padding-bottom: 9px;
-}
-
-/* ─── CTA Button ─── */
+/* ─── CTA ─── */
 .mig-cta {
+  position: relative;
+  z-index: 1;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -190,7 +128,7 @@
   transform: scale(0.97);
 }
 
-/* ─── Ticker strip ─── */
+/* ─── Ticker ─── */
 .mig-ticker {
   overflow: hidden;
   background: var(--color-black);
@@ -234,7 +172,6 @@
   0%   { background-position: 250% 0; }
   100% { background-position: -250% 0; }
 }
-
 @keyframes mig-scroll {
   0%   { transform: translateX(0); }
   100% { transform: translateX(-50%); }
@@ -243,171 +180,63 @@
 /* ================================================================
    RESPONSIVE
    ================================================================ */
-
-/* ── MOBILE (< 640px): 2 filas apiladas ── */
 @media (max-width: 639px) {
   .mig-main {
-    flex-direction: column;
-    gap: 5px;
-    padding: 7px 34px 7px 10px;
+    gap: 6px 10px;
+    padding: 8px 34px 8px 12px;
   }
-
-  /* Ocultar el separador en mobile */
-  .mig-sep {
-    display: none;
-  }
-
-  /* Ocultar subtexto en pantallas muy pequeñas */
-  .mig-sub {
-    display: none;
-  }
-
-  .mig-row1 {
-    flex-direction: row;
-    gap: 0;
-  }
-
-  .mig-headline {
+  .mig-copy {
     font-size: 0.72rem;
-    letter-spacing: 0.04em;
   }
-
-  .mig-row2 {
-    gap: 8px;
-  }
-
-  .mig-digits {
-    font-size: 0.82rem;
-    padding: 2px 4px;
-    min-width: 22px;
-    border-radius: 4px;
-  }
-
-  .mig-label {
-    font-size: 0.4rem;
-  }
-
-  .mig-colon {
-    font-size: 0.82rem;
-    padding-bottom: 7px;
-  }
-
   .mig-cta {
-    padding: 4px 10px;
+    padding: 4px 12px;
     font-size: 0.56rem;
-    border-radius: 3px;
   }
-
   .mig-ticker-item {
     font-size: 0.5rem;
     padding: 0 14px;
     gap: 5px;
   }
-
   .mig-ticker-dot {
     width: 3px;
     height: 3px;
   }
 }
 
-/* ── Pantallas muy pequeñas (< 360px) ── */
-@media (max-width: 359px) {
-  .mig-headline {
-    font-size: 0.62rem;
-  }
-
-  .mig-digits {
-    font-size: 0.72rem;
-    padding: 2px 3px;
-    min-width: 20px;
-  }
-
-  .mig-colon {
-    font-size: 0.72rem;
-    padding-bottom: 6px;
-  }
-
-  .mig-cta {
-    padding: 3px 8px;
-    font-size: 0.5rem;
-  }
-}
-
-/* ── DESKTOP (≥ 640px): una sola fila centrada ── */
 @media (min-width: 640px) {
   .mig-main {
     flex-wrap: nowrap;
-    gap: 16px;
-    padding: 10px 44px 10px 24px;
+    gap: 18px;
+    padding: 10px 48px 10px 24px;
   }
-
   .mig-close {
     right: 12px;
   }
-
-  .mig-headline {
-    font-size: 0.95rem;
-    letter-spacing: 0.07em;
+  .mig-copy {
+    font-size: 0.9rem;
+    white-space: nowrap;
   }
-
-  .mig-sub {
-    font-size: 0.6rem;
-    display: inline;
-  }
-
-  .mig-digits {
-    font-size: 1.2rem;
-    padding: 5px 7px;
-    min-width: 34px;
-  }
-
-  .mig-colon {
-    font-size: 1.15rem;
-    padding-bottom: 10px;
-  }
-
-  .mig-label {
-    font-size: 0.48rem;
-  }
-
   .mig-cta {
     padding: 7px 22px;
     font-size: 0.7rem;
   }
-
-  .mig-row2 {
-    gap: 16px;
-  }
 }
 
-/* ── LARGE DESKTOP (≥ 1024px): más espacioso ── */
 @media (min-width: 1024px) {
   .mig-main {
     gap: 24px;
-    padding: 10px 48px 10px 32px;
+    padding: 11px 52px 11px 32px;
   }
-
-  .mig-headline {
-    font-size: 1.05rem;
+  .mig-copy {
+    font-size: 0.98rem;
   }
-
-  .mig-sub {
-    font-size: 0.65rem;
-  }
-
-  .mig-digits {
-    font-size: 1.35rem;
-    padding: 5px 8px;
-    min-width: 38px;
-  }
-
   .mig-cta {
     padding: 8px 26px;
     font-size: 0.72rem;
   }
 }
 
-/* ─── Accessibility ─── */
+/* ─── Accesibilidad ─── */
 @media (prefers-reduced-motion: reduce) {
   .mig-shimmer,
   .mig-ticker-track {

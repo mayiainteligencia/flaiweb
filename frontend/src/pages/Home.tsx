@@ -1,11 +1,11 @@
 import Hero from '@/components/sections/Hero';
 import Dashboard from '@/components/sections/Dashboard';
-import MigrationBanner from '@/components/layout/MigrationBanner';
 
+// El banner de migración se monta una sola vez, en DashboardLayout (site-wide).
+// Aquí NO se incluye para evitar duplicarlo en "/".
 export default function Home() {
   return (
     <main>
-      <MigrationBanner />
       <Hero />
       <Dashboard />
     </main>

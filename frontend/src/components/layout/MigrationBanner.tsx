@@ -6,14 +6,13 @@ import { MIGRATION_PROMO } from '@/data/promo';
 import './MigrationBanner.css';
 
 const KEY = 'flai_migbanner_dismissed';
+const DAY = 86_400_000;
 
-/* ------------------------------------------------------------------ */
-/*  Fecha límite de la promo (ajustar según campaña).                  */
-/*  Si la fecha ya pasó el banner no se muestra.                       */
-/* ------------------------------------------------------------------ */
-const PROMO_END = new Date('2026-08-31T23:59:59');
+// Ventana de la promo (calendario, zona horaria de México).
+const START_UTC = Date.UTC(2026, 6, 31); // 31 jul 2026
+const END_UTC = Date.UTC(2026, 10, 20); //  20 nov 2026
 
-/* Beneficios que rotan en el ticker inferior */
+// Beneficios que rotan en el ticker inferior.
 const TICKER_ITEMS = [
   '1ER MES DE OPERACIÓN GRATIS',
   'DIAGNÓSTICO DE MIGRACIÓN SIN COSTO',
@@ -24,46 +23,48 @@ const TICKER_ITEMS = [
   'CONSULTORÍA CLOUD GRATUITA',
 ];
 
-/* ─── Helpers ─── */
-function getTimeLeft(target: Date) {
-  const diff = Math.max(0, target.getTime() - Date.now());
-  return {
-    days: Math.floor(diff / 86_400_000),
-    hours: Math.floor((diff / 3_600_000) % 24),
-    mins: Math.floor((diff / 60_000) % 60),
-    secs: Math.floor((diff / 1_000) % 60),
-  };
+// Días restantes hasta el 20 nov 2026, calculados en America/Mexico_City.
+// Devuelve un entero > 0, o null si la promo aún no empieza o ya terminó.
+// Se usa Math.ceil: el día en curso cuenta como día restante.
+function daysLeftMX(): number | null {
+  const parts = new Intl.DateTimeFormat('en-CA', {
+    timeZone: 'America/Mexico_City',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }).format(new Date());
+  const [y, m, d] = parts.split('-').map(Number);
+  const todayUTC = Date.UTC(y, m - 1, d);
+  if (todayUTC < START_UTC || todayUTC > END_UTC) return null; // fuera de ventana
+  const left = Math.ceil((END_UTC - todayUTC) / DAY);
+  return left > 0 ? left : null;
 }
 
-function pad(n: number) {
-  return String(n).padStart(2, '0');
-}
-
-/* ================================================================== */
-/*  MigrationBanner                                                    */
-/*  • Barra superior con countdown + CTA + ticker de beneficios        */
-/*  • Adaptativo mobile / desktop                                      */
-/* ================================================================== */
 export default function MigrationBanner() {
   // Se muestra por defecto (también en SSR) → reserva su altura desde el primer
-  // paint y NO provoca CLS en visitantes nuevos ni en crawlers. En cliente se
-  // oculta solo si el usuario ya la cerró o la promo expiró (colapso reverso, raro).
+  // paint y NO provoca CLS. En cliente se oculta si el usuario la cerró o la promo
+  // está fuera de ventana.
   const [hidden, setHidden] = useState(false);
-  // time = null en SSR y primera hidratación → placeholders "--" (evita el
-  // mismatch de hidratación que causaría el countdown basado en Date.now()).
-  const [time, setTime] = useState<ReturnType<typeof getTimeLeft> | null>(null);
+  // days = null en SSR y primera hidratación → placeholder "—" (sin número, sin
+  // hydration mismatch). El cálculo real (Date/Intl) va en useEffect, cliente only.
+  const [days, setDays] = useState<number | null>(null);
 
   useEffect(() => {
-    if (localStorage.getItem(KEY) === '1' || Date.now() > PROMO_END.getTime()) {
+    if (localStorage.getItem(KEY) === '1') {
       setHidden(true);
       return;
     }
-    setTime(getTimeLeft(PROMO_END));
-    const id = setInterval(() => {
-      const t = getTimeLeft(PROMO_END);
-      setTime(t);
-      if (t.days + t.hours + t.mins + t.secs === 0) setHidden(true);
-    }, 1_000);
+    const update = () => {
+      const left = daysLeftMX();
+      if (left === null) {
+        setHidden(true);
+        return;
+      }
+      setDays(left);
+    };
+    update();
+    // Recalcular cada hora cubre el cambio de día (medianoche) en tabs abiertas.
+    const id = setInterval(update, 60 * 60 * 1000);
     return () => clearInterval(id);
   }, []);
 
@@ -85,53 +86,27 @@ export default function MigrationBanner() {
           transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
           className="mig-root relative z-50 shrink-0 overflow-hidden"
         >
-          {/* ─── Fila Principal ─── */}
           <div className="mig-main">
-            {/* Shimmer decorativo */}
             <div className="mig-shimmer" aria-hidden />
 
-            {/* Cerrar — siempre en la esquina superior derecha */}
-            <button
-              onClick={dismiss}
-              aria-label="Cerrar promoción"
-              className="mig-close"
-            >
+            <button onClick={dismiss} aria-label="Cerrar promoción" className="mig-close">
               <X size={14} />
             </button>
 
-            {/* ── ROW 1 (mobile) / inline (desktop): Texto ── */}
-            <div className="mig-row1">
-              <span className="mig-headline">MIGRACIÓN SIN COSTO</span>
-              <span className="mig-sub">
-                Operación gratuita el 1er mes&nbsp;|&nbsp;Diagnóstico incluido
-              </span>
-            </div>
+            {/* Copy en una sola línea. En SSR days=null → "—" (sin número). */}
+            <p className="mig-copy">
+              Tienes <span className="mig-days">{days ?? '—'}</span> días para migrar gratis y
+              obtener tu primer mes incluido. <span className="mig-urge">¡Apúrate!</span>
+            </p>
 
-            {/* Separador vertical (solo desktop) */}
-            <span className="mig-sep" aria-hidden />
-
-            {/* ── ROW 2 (mobile) / inline (desktop): Countdown + CTA ── */}
-            <div className="mig-row2">
-              <div className="mig-countdown" aria-label="Tiempo restante de la promoción">
-                <CountdownUnit value={time?.days ?? null} label="días" />
-                <span className="mig-colon">:</span>
-                <CountdownUnit value={time?.hours ?? null} label="hrs" />
-                <span className="mig-colon">:</span>
-                <CountdownUnit value={time?.mins ?? null} label="min" />
-                <span className="mig-colon">:</span>
-                <CountdownUnit value={time?.secs ?? null} label="seg" />
-              </div>
-
-              <NavLink to={MIGRATION_PROMO.to} className="mig-cta">
-                {MIGRATION_PROMO.cta}
-              </NavLink>
-            </div>
+            <NavLink to={MIGRATION_PROMO.to} className="mig-cta">
+              {MIGRATION_PROMO.cta}
+            </NavLink>
           </div>
 
-          {/* ─── Ticker inferior con beneficios ─── */}
+          {/* Ticker inferior con beneficios */}
           <div className="mig-ticker" aria-label="Beneficios de la promoción">
             <div className="mig-ticker-track">
-              {/* Duplicamos los items para loop infinito */}
               {[...TICKER_ITEMS, ...TICKER_ITEMS].map((item, i) => (
                 <span key={i} className="mig-ticker-item">
                   <span className="mig-ticker-dot" aria-hidden />
@@ -143,16 +118,5 @@ export default function MigrationBanner() {
         </motion.div>
       )}
     </AnimatePresence>
-  );
-}
-
-/* ─── Sub-componente: dígito del countdown ─── */
-// value = null en SSR/primer render → "--" (mismo ancho por min-width en CSS, sin CLS).
-function CountdownUnit({ value, label }: { value: number | null; label: string }) {
-  return (
-    <div className="mig-unit">
-      <span className="mig-digits">{value == null ? '--' : pad(value)}</span>
-      <span className="mig-label">{label}</span>
-    </div>
   );
 }
